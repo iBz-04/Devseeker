@@ -13,9 +13,11 @@ Functions
 human_review_input() -> Optional[Review]
     Interactively gathers feedback from the user regarding the performance of generated code and returns a Review instance.
 check_collection_consent() -> bool
-    Checks if the user has previously given consent to store their data and, if not, asks for it.
+    Checks if the user has previously given consent to store their data for feedback collection.
+    This function looks for a file named .devseeker_consent that stores the user's consent status. If the file exists and contains 'true', consent is assumed. Otherwise it prompts the user.
 ask_collection_consent() -> bool
-    Prompts the user for consent to store their data for the purpose of improving GPT Engineer.
+    Asks the user for their consent to store their data for the purpose of improving the devseeker tool.
+    The user's response is recorded in a file for future reference. If the user consents, the function will write 'true' to the file. If the user does not consent, no data will be collected, and the function will not modify the file.
 extract_learning(prompt: Prompt, model: str, temperature: float, config: Tuple[str, ...], memory: DiskMemory, review: Review) -> Learning
     Extracts feedback and session details to create a Learning instance based on the provided parameters.
 get_session() -> str
@@ -135,7 +137,7 @@ def human_review_input() -> Optional[Review]:
         return None
     print()
     print(
-        colored("To help gpt-engineer learn, please answer 3 questions:", "light_green")
+        colored("To help devseeker learn, please answer 3 questions:", "light_green")
     )
     print()
 
@@ -184,14 +186,14 @@ def check_collection_consent() -> bool:
     """
     Checks if the user has previously given consent to store their data for feedback collection.
 
-    This function looks for a file that stores the user's consent status. If the file exists and contains 'true', consent is assumed. If the file does not exist or does not contain 'true', the function will prompt the user for consent.
+    This function looks for a file named .devseeker_consent that stores the user's consent status. If the file exists and contains 'true', consent is assumed. Otherwise it prompts the user.
 
     Returns
     -------
     bool
         True if the user has given consent, False otherwise.
     """
-    path = Path(".gpte_consent")
+    path = Path(".devseeker_consent")
     if path.exists() and path.read_text() == "true":
         return True
     else:
@@ -200,7 +202,7 @@ def check_collection_consent() -> bool:
 
 def ask_collection_consent() -> bool:
     """
-    Asks the user for their consent to store their data for the purpose of improving the GPT Engineer tool.
+    Asks the user for their consent to store their data for the purpose of improving the devseeker tool.
 
     The user's response is recorded in a file for future reference. If the user consents, the function will write 'true' to the file. If the user does not consent, no data will be collected, and the function will not modify the file.
 
@@ -210,24 +212,24 @@ def ask_collection_consent() -> bool:
         True if the user consents, False otherwise.
     """
     answer = input(
-        "Is it ok if we store your prompts to help improve GPT Engineer? (y/n)"
+        "Is it ok if we store your prompts to help improve devseeker? (y/n)"
     )
     while answer.lower() not in ("y", "n"):
         answer = input("Invalid input. Please enter y or n: ")
 
     if answer.lower() == "y":
-        path = Path(".gpte_consent")
+        path = Path(".devseeker_consent")
         path.write_text("true")
         print(colored("Thank you️", "light_green"))
         print()
         print(
-            "(If you no longer wish to participate in data collection, delete the file .gpte_consent)"
+            "(If you no longer wish to participate in data collection, delete the file .devseeker_consent)"
         )
         return True
     else:
         print(
             colored(
-                "No worries! GPT Engineer will not collect your prompts. ❤️",
+                "No worries! devseeker will not collect your prompts. ❤️",
                 "light_green",
             )
         )
