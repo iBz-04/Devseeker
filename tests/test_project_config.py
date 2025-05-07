@@ -4,7 +4,7 @@ import pytest
 
 from devseeker.core.project_config import (
     Config,
-    _GptEngineerAppConfig,
+    _DevseekerAppConfig,
     _OpenApiConfig,
     example_config,
     filter_none,
@@ -24,15 +24,15 @@ def test_config_load():
     assert config.run.build == "npm run build"
     assert config.run.test == "npm run test"
     assert config.run.lint == "quick-lint-js"
-    assert config.gptengineer_app
-    assert config.gptengineer_app.project_id == "..."
-    assert config.gptengineer_app.openapi
+    assert config.devseeker_app
+    assert config.devseeker_app.project_id == "..."
+    assert config.devseeker_app.openapi
     assert (
-        config.gptengineer_app.openapi[0].url
-        == "https://api.gptengineer.app/openapi.json"
+        config.devseeker_app.openapi[0].url
+        == "https://api.devseeker.app/openapi.json"
     )
     assert (
-        config.gptengineer_app.openapi[1].url
+        config.devseeker_app.openapi[1].url
         == "https://some-color-translating-api/openapi.json"
     )
     assert config.to_dict()
@@ -57,10 +57,10 @@ def test_config_defaults():
 
 
 def test_config_from_dict():
-    d = {"gptengineer-app": {"project_id": "..."}}  # minimal example
+    d = {"devseeker-app": {"project_id": "..."}}  # minimal example
     config = Config.from_dict(d)
-    assert config.gptengineer_app
-    assert config.gptengineer_app.project_id == "..."
+    assert config.devseeker_app
+    assert config.devseeker_app.project_id == "..."
     config_dict = config.to_dict()
 
     # check that the config dict matches the input dict exactly (no keys/defaults added)
@@ -70,35 +70,35 @@ def test_config_from_dict():
 def test_config_from_dict_with_openapi():
     # A good test because it has 3 levels of nesting
     d = {
-        "gptengineer-app": {
+        "devseeker-app": {
             "project_id": "...",
             "openapi": [
-                {"url": "https://api.gptengineer.app/openapi.json"},
+                {"url": "https://api.devseeker.app/openapi.json"},
             ],
         }
     }
     config = Config.from_dict(d)
-    assert config.gptengineer_app
-    assert config.gptengineer_app.project_id == "..."
-    assert config.gptengineer_app.openapi
+    assert config.devseeker_app
+    assert config.devseeker_app.project_id == "..."
+    assert config.devseeker_app.openapi
     assert (
-        config.gptengineer_app.openapi[0].url
-        == "https://api.gptengineer.app/openapi.json"
+        config.devseeker_app.openapi[0].url
+        == "https://api.devseeker.app/openapi.json"
     )
 
 
 def test_config_load_partial():
     # Loads a partial config, and checks that the rest is not set (i.e. None)
     example_config = """
-[gptengineer-app]
+[devseeker-app]
 project_id = "..."
 """.strip()
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as f:
         f.write(example_config)
 
     config = Config.from_toml(f.name)
-    assert config.gptengineer_app
-    assert config.gptengineer_app.project_id == "..."
+    assert config.devseeker_app
+    assert config.devseeker_app.project_id == "..."
     assert config.to_dict()
     toml_str = config.to_toml(f.name, save=False)
     assert toml_str == example_config
@@ -109,15 +109,15 @@ project_id = "..."
 
 def test_config_update():
     example_config = """
-[gptengineer-app]
+[devseeker-app]
 project_id = "..."
 """.strip()
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as f:
         f.write(example_config)
     config = Config.from_toml(f.name)
-    config.gptengineer_app = _GptEngineerAppConfig(
+    config.devseeker_app = _DevseekerAppConfig(
         project_id="...",
-        openapi=[_OpenApiConfig(url="https://api.gptengineer.app/openapi.json")],
+        openapi=[_OpenApiConfig(url="https://api.devseeker.app/openapi.json")],
     )
     config.to_toml(f.name)
     assert Config.from_toml(f.name) == config

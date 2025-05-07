@@ -20,12 +20,12 @@ lint = "quick-lint-js"
 base = "./frontend"  # base directory to operate in (for monorepos)
 src = "./src"        # source directory (under the base directory) from which context will be retrieved
 
-[gptengineer-app]  # this namespace is used for gptengineer.app, may be used for internal experiments
+[devseeker-app]  # this namespace is used for devseeker.app, may be used for internal experiments
 project_id = "..."
 
 # we support multiple OpenAPI schemas, used as context for the LLM
 openapi = [
-    { url = "https://api.gptengineer.app/openapi.json" },
+    { url = "https://api.devseeker.app/openapi.json" },
     { url = "https://some-color-translating-api/openapi.json" },
 ]
 """
