@@ -1,4 +1,4 @@
-# gpt-engineer
+# devseeker
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/gpt-engineer-org/gpt-engineer?style=social)](https://github.com/gpt-engineer-org/gpt-engineer)
 [![Discord Follow](https://dcbadge.vercel.app/api/server/8tcDQ89Ej2?style=flat)](https://discord.gg/8tcDQ89Ej2)
@@ -14,22 +14,22 @@ If you are looking for the evolution that is an opinionated, managed service –
 If you are looking for a well maintained hackable CLI for – check out aider.
 
 
-gpt-engineer lets you:
+devseeker lets you:
 - Specify software in natural language
 - Sit back and watch as an AI writes and executes the code
 - Ask the AI to implement improvements
 
 ## Getting Started
 
-### Install gpt-engineer
+### Install devseeker
 
 For **stable** release:
 
-- `python -m pip install gpt-engineer`
+- `python -m pip install devseeker`
 
 For **development**:
-- `git clone https://github.com/gpt-engineer-org/gpt-engineer.git`
-- `cd gpt-engineer`
+- `git clone https://github.com/gpt-engineer-org/devseeker.git`
+- `cd devseeker`
 - `poetry install`
 - `poetry shell` to activate the virtual environment
 
@@ -56,17 +56,17 @@ Check the [Windows README](./WINDOWS_README.md) for Windows usage.
 ### Create new code (default usage)
 - Create an empty folder for your project anywhere on your computer
 - Create a file called `prompt` (no extension) inside your new folder and fill it with instructions
-- Run `gpte <project_dir>` with a relative path to your folder
-  - For example: `gpte projects/my-new-project` from the gpt-engineer directory root with your new folder in `projects/`
+- Run `devseeker projects/my-new-project` with a relative path to your folder
+  - For example: `devseeker projects/my-new-project` from the devseeker directory root with your new folder in `projects/`
 
 ### Improve existing code
 - Locate a folder with code which you want to improve anywhere on your computer
 - Create a file called `prompt` (no extension) inside your new folder and fill it with instructions for how you want to improve the code
-- Run `gpte <project_dir> -i` with a relative path to your folder
-  - For example: `gpte projects/my-old-project -i` from the gpt-engineer directory root with your folder in `projects/`
+- Run `devseeker projects/my-old-project -i` with a relative path to your folder
+  - For example: `devseeker projects/my-old-project -i` from the devseeker directory root with your folder in `projects/`
 
 ### Benchmark custom agents
-- gpt-engineer installs the binary 'bench', which gives you a simple interface for benchmarking your own agent implementations against popular public datasets.
+- devseeker installs the binary 'bench', which gives you a simple interface for benchmarking your own agent implementations against popular public datasets.
 - The easiest way to get started with benchmarking is by checking out the [template](https://github.com/gpt-engineer-org/gpte-bench-template) repo, which contains detailed instructions and an agent template.
 - Currently supported benchmark:
   - [APPS](https://github.com/hendrycks/apps)
@@ -78,7 +78,7 @@ The community has started work with different benchmarking initiatives, as descr
 Some of our community members have worked on different research briefs that could be taken further. See [this document](https://docs.google.com/document/d/1qmOj2DvdPc6syIAm8iISZFpfik26BYw7ZziD5c-9G0E/edit?usp=sharing) if you are interested.
 
 ## Terms
-By running gpt-engineer, you agree to our [terms](https://github.com/gpt-engineer-org/gpt-engineer/blob/main/TERMS_OF_USE.md).
+By running devseeker, you agree to our [terms](https://github.com/gpt-engineer-org/gpt-engineer/blob/main/TERMS_OF_USE.md).
 
 
 ## Relation to gptengineer.app (GPT Engineer)
@@ -96,19 +96,19 @@ Editing the `preprompts` is how you make the agent remember things between proje
 
 ### Vision
 
-By default, gpt-engineer expects text input via a `prompt` file. It can also accept image inputs for vision-capable models. This can be useful for adding UX or architecture diagrams as additional context for GPT Engineer. You can do this by specifying an image directory with the `—-image_directory` flag and setting a vision-capable model in the second CLI argument.
+By default, devseeker expects text input via a `prompt` file. It can also accept image inputs for vision-capable models. This can be useful for adding UX or architecture diagrams as additional context for GPT Engineer. You can do this by specifying an image directory with the `—-image_directory` flag and setting a vision-capable model in the second CLI argument.
 
-E.g. `gpte projects/example-vision gpt-4-vision-preview --prompt_file prompt/text --image_directory prompt/images -i`
+E.g. `devseeker projects/example-vision gpt-4-vision-preview --prompt_file prompt/text --image_directory prompt/images -i`
 
 ### Open source, local and alternative models
 
-By default, gpt-engineer supports OpenAI Models via the OpenAI API or Azure OpenAI API, as well as Anthropic models.
+By default, devseeker supports OpenAI Models via the OpenAI API or Azure OpenAI API, as well as Anthropic models.
 
 With a little extra setup, you can also run with open source models like WizardCoder. See the [documentation](https://gpt-engineer.readthedocs.io/en/latest/open_models.html) for example instructions.
 
 ## Mission
 
-The gpt-engineer community mission is to **maintain tools that coding agent builders can use and facilitate collaboration in the open source community**.
+The devseeker community mission is to **maintain tools that coding agent builders can use and facilitate collaboration in the open source community**.
 
 If you are interested in contributing to this, we are interested in having you.
 
@@ -116,7 +116,7 @@ If you want to see our broader ambitions, check out the [roadmap](https://github
 [discord](https://discord.gg/8tcDQ89Ej2)
 to learn how you can [contribute](.github/CONTRIBUTING.md) to it.
 
-gpt-engineer is [governed](https://github.com/gpt-engineer-org/gpt-engineer/blob/main/GOVERNANCE.md) by a board of long-term contributors. If you contribute routinely and have an interest in shaping the future of gpt-engineer, you will be considered for the board.
+devseeker is [governed](https://github.com/gpt-engineer-org/gpt-engineer/blob/main/GOVERNANCE.md) by a board of long-term contributors. If you contribute routinely and have an interest in shaping the future of devseeker, you will be considered for the board.
 
 ## Significant contributors
 <ul style="list-style-type: none; padding: 0; display: flex; flex-wrap: wrap;"> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/ATheorell"> <img src="https://avatars.githubusercontent.com/u/143704446?s=64&v=4" alt="@ATheorell" width="32" height="32" style="border-radius: 50%;"> @ATheorell </a> </li> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/similato87"> <img src="https://avatars.githubusercontent.com/u/71301573?s=64&v=4" alt="@similato87" width="32" height="32" style="border-radius: 50%;"> @similato87 </a> </li> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/TheoMcCabe"> <img src="https://avatars.githubusercontent.com/u/9841960?s=64&v=4" alt="@TheoMcCabe" width="32" height="32" style="border-radius: 50%;"> @TheoMcCabe </a> </li> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/captivus"> <img src="https://avatars.githubusercontent.com/u/366332?s=64&v=4" alt="@captivus" width="32" height="32" style="border-radius: 50%;"> @captivus </a> </li> </ul>

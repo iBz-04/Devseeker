@@ -11,7 +11,7 @@ Choose either **stable** or **development**.
 
 For **stable** release:
 
-Run `pip install gpt-engineer` in the command line as an administrator
+Run `pip install devseeker` in the command line as an administrator
 
 Or:
 
@@ -27,8 +27,8 @@ Or:
 
 For **development**:
 
-- `git clone git@github.com:gpt-engineer-org/gpt-engineer.git`
-- `cd gpt-engineer`
+- `git clone git@github.com:gpt-engineer-org/devseeker.git`
+- `cd devseeker`
 - `poetry install`
 - `poetry shell` to activate the virtual environment
 
@@ -58,8 +58,8 @@ Now you can use `%OPENAI_API_KEY%` when prompted to input your key.
   - Run `xcopy /E projects\example projects\my-new-project` in the command line or `Copy-Item -Path "projects\example" -Destination "projects\my-new-project" -Recurse`
   - Or hold CTRL and drag the folder down to create a copy, then rename to fit your project
 - Fill in the `prompt` file in your new folder with your command
-- `gpt-engineer projects/my-new-project` or `poetry run gpt-engineer projects/my-new-project`
-  - (Note, `gpt-engineer --help` lets you see all available options. For example `--steps use_feedback` lets you improve/fix code in a project)
+- `devseeker projects/my-new-project` or `poetry run devseeker projects/my-new-project`
+  - (Note, `devseeker --help` lets you see all available options. For example `--steps use_feedback` lets you improve/fix code in a project)
 
   NB: If you want to create a game you might want to install pygame `pip install pygame`
 

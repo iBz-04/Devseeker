@@ -1,9 +1,9 @@
 from unittest import mock
 
-from gpt_engineer.applications.cli import learning
-from gpt_engineer.applications.cli.learning import Learning
-from gpt_engineer.core.default.disk_memory import DiskMemory
-from gpt_engineer.core.prompt import Prompt
+from devseeker.applications.cli import learning
+from devseeker.applications.cli.learning import Learning
+from devseeker.core.default.disk_memory import DiskMemory
+from devseeker.core.prompt import Prompt
 
 
 def test_human_review_input_no_concent_returns_none():
@@ -108,3 +108,4 @@ def test_get_session():
             result = learning.get_session()
 
         assert result == "42"
+

@@ -166,7 +166,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass
 # [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "gpt_engineer.tex", "GPT-ENgineer Documentation", "manual"),
+    (master_doc, "devseeker.tex", "GPT-ENgineer Documentation", "manual"),
 ]
 
 
@@ -174,7 +174,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "gpt_engineer", "GPT-Engineer Documentation", [author], 1)]
+man_pages = [(master_doc, "devseeker", "GPT-Engineer Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------
@@ -185,10 +185,10 @@ man_pages = [(master_doc, "gpt_engineer", "GPT-Engineer Documentation", [author]
 texinfo_documents = [
     (
         master_doc,
-        "gpt_engineer",
+        "devseeker",
         "GPT-Engineer Documentation",
         author,
-        "gpt_engineer",
+        "devseeker",
         "One line description of project.",
         "Miscellaneous",
     ),
@@ -202,3 +202,4 @@ myst_enable_extensions = [
 ]
 
 myst_all_links_external = True
+

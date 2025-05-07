@@ -1,6 +1,6 @@
 import pytest
 
-from gpt_engineer.core.default.disk_memory import DiskMemory
+from devseeker.core.default.disk_memory import DiskMemory
 
 
 def test_DB_operations(tmp_path):
@@ -155,3 +155,4 @@ class TestOnDiskRepository:
         db["large_file"] = large_content
 
         assert db["large_file"] == large_content
+

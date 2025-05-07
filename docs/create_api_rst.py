@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT_DIR = Path(__file__).parents[1].absolute()
 print(ROOT_DIR)
-PKG_DIR = ROOT_DIR / "gpt_engineer"
+PKG_DIR = ROOT_DIR / "devseeker"
 WRITE_FILE = Path(__file__).parent / "api_reference.rst"
 
 
@@ -46,12 +46,12 @@ API Reference
         module_title = module.replace("_", " ").title()
         if module_title == "Llms":
             module_title = "LLMs"
-        section = f":mod:`gpt_engineer.{module}`: {module_title}"
+        section = f":mod:`devseeker.{module}`: {module_title}"
         full_doc += f"""\
 {section}
 {'=' * (len(section) + 1)}
 
-.. automodule:: gpt_engineer.{module}
+.. automodule:: devseeker.{module}
     :no-members:
     :no-inherited-members:
 
@@ -62,7 +62,7 @@ API Reference
             full_doc += f"""\
 Classes
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: {module}
@@ -76,7 +76,7 @@ Classes
             full_doc += f"""\
 Functions
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: {module}
@@ -96,3 +96,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

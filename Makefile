@@ -44,8 +44,8 @@ farewell:
 
 #Defines a target named run. This target will run GPT Engineer on the folder with the given name.
 run:
-	@echo -e "$(COLOR_CYAN)Running GPT Engineer on $(COLOR_GREEN)$(name)$(COLOR_CYAN) folder...$(COLOR_RESET)" && \
-	poetry run gpt-engineer projects/$(name)
+	@echo -e "$(COLOR_CYAN)Running devseeker on $(COLOR_GREEN)$(name)$(COLOR_CYAN) folder...$(COLOR_RESET)" && \
+	poetry run devseeker projects/$(name)
 
 # Counts the lines of code in the project
 cloc:

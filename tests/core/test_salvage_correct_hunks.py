@@ -7,10 +7,10 @@ import pytest
 
 from langchain_core.messages import AIMessage
 
-from gpt_engineer.core.default.disk_memory import DiskMemory
-from gpt_engineer.core.default.paths import memory_path
-from gpt_engineer.core.default.steps import salvage_correct_hunks
-from gpt_engineer.core.files_dict import FilesDict
+from devseeker.core.default.disk_memory import DiskMemory
+from devseeker.core.default.paths import memory_path
+from devseeker.core.default.steps import salvage_correct_hunks
+from devseeker.core.files_dict import FilesDict
 
 TEST_FILES_DIR = os.path.dirname(os.path.abspath(__file__))
 memory = DiskMemory(memory_path("."))
@@ -116,3 +116,4 @@ def clean_up_folder():
 
 if __name__ == "__main__":
     pytest.main()
+

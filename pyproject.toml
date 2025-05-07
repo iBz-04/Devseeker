@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "gpt-engineer"
+name = "devseeker"
 version = "0.3.1"
 description = "Specify what you want it to build, the AI asks for clarification, and then builds it."
 authors = ["Anton Osika <anton.osika@gmail.com>"]
@@ -64,11 +64,11 @@ markdown-include = ">=0.6.0"
 sphinx_copybutton = ">=0.5.2"
 
 [tool.poetry.scripts]
-gpt-engineer = 'gpt_engineer.applications.cli.main:app'
-ge = 'gpt_engineer.applications.cli.main:app'
-gpte = 'gpt_engineer.applications.cli.main:app'
-bench = 'gpt_engineer.benchmark.__main__:app'
-gpte_test_application = 'tests.caching_main:app'
+devseeker = 'devseeker.applications.cli.main:app'
+ds = 'devseeker.applications.cli.main:app'
+dste = 'devseeker.applications.cli.main:app'
+bench = 'devseeker.benchmark.__main__:app'
+ds_test_application = 'tests.caching_main:app'
 
 [tool.poetry.extras]
 test = ["pytest", "pytest-cov"]

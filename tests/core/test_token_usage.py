@@ -9,7 +9,7 @@ from pathlib import Path
 from langchain.schema import HumanMessage, SystemMessage
 from PIL import Image
 
-from gpt_engineer.core.token_usage import Tokenizer, TokenUsageLog
+from devseeker.core.token_usage import Tokenizer, TokenUsageLog
 
 
 def test_format_log():
@@ -108,3 +108,4 @@ def test_list_type_message_with_image():
     assert (
         token_usage_log.log()[-1].in_step_total_tokens == expected_total_tokens
     ), f"Expected {expected_total_tokens} tokens, got {token_usage_log.log()[-1].in_step_total_tokens}"
+

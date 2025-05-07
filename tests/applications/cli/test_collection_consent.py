@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 import pytest
 
-from gpt_engineer.applications.cli.learning import (
+from devseeker.applications.cli.learning import (
     ask_collection_consent,
     check_collection_consent,
 )
@@ -101,3 +101,4 @@ def test_ask_collection_consent_invalid_then_no(cleanup):
         result = ask_collection_consent()
     assert not Path(".gpte_consent").exists()
     assert result is False
+

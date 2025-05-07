@@ -1,7 +1,7 @@
 from langchain.chat_models.base import BaseChatModel
 from langchain_community.chat_models.fake import FakeListChatModel
 
-from gpt_engineer.core.ai import AI
+from devseeker.core.ai import AI
 
 
 def mock_create_chat_model(self) -> BaseChatModel:
@@ -51,3 +51,4 @@ def test_token_logging(monkeypatch):
     # assert
     assert usageCostAfterStart > 0
     assert usageCostAfterNext > usageCostAfterStart
+

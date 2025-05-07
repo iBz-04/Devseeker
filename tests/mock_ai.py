@@ -12,3 +12,4 @@ class MockAI:
         self, messages: List[str], prompt: Optional[str] = None, *, step_name: str
     ) -> List[str]:
         return [next(self.responses)]
+

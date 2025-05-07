@@ -2,7 +2,7 @@ import tempfile
 
 import pytest
 
-from gpt_engineer.core.project_config import (
+from devseeker.core.project_config import (
     Config,
     _GptEngineerAppConfig,
     _OpenApiConfig,
@@ -142,3 +142,4 @@ project_id = "..."
 )
 def test_filter_none(input_dict, expected):
     assert filter_none(input_dict) == expected
+

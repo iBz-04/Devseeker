@@ -3,11 +3,11 @@ import unittest
 
 from unittest.mock import MagicMock, patch
 
-from gpt_engineer.core.default.disk_execution_env import DiskExecutionEnv
+from devseeker.core.default.disk_execution_env import DiskExecutionEnv
 
-# from gpt_engineer.core.default.git_version_manager import GitVersionManager
-from gpt_engineer.core.default.paths import ENTRYPOINT_FILE
-from gpt_engineer.core.files_dict import FilesDict
+# from devseeker.core.default.git_version_manager import GitVersionManager
+from devseeker.core.default.paths import ENTRYPOINT_FILE
+from devseeker.core.files_dict import FilesDict
 
 
 class TestOnDiskExecutionEnv(unittest.TestCase):
@@ -78,3 +78,4 @@ class TestOnDiskExecutionEnv(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

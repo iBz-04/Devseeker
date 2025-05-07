@@ -4,11 +4,11 @@ import pytest
 
 from langchain.schema import AIMessage
 
-from gpt_engineer.core.default.disk_execution_env import DiskExecutionEnv
-from gpt_engineer.core.default.paths import ENTRYPOINT_FILE
-from gpt_engineer.core.default.simple_agent import SimpleAgent
-from gpt_engineer.core.files_dict import FilesDict
-from gpt_engineer.core.prompt import Prompt
+from devseeker.core.default.disk_execution_env import DiskExecutionEnv
+from devseeker.core.default.paths import ENTRYPOINT_FILE
+from devseeker.core.default.simple_agent import SimpleAgent
+from devseeker.core.files_dict import FilesDict
+from devseeker.core.prompt import Prompt
 from tests.mock_ai import MockAI
 
 
@@ -74,3 +74,4 @@ def test_improve():
 
 if __name__ == "__main__":
     pytest.main()
+

@@ -17,3 +17,4 @@ class View:
                     print(".", end="")
             print()
         print()
+

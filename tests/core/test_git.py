@@ -3,7 +3,7 @@ import tempfile
 
 from pathlib import Path
 
-from gpt_engineer.core.git import (
+from devseeker.core.git import (
     filter_by_gitignore,
     filter_files_with_uncommitted_changes,
     init_git_repo,
@@ -106,3 +106,4 @@ def test_filter_by_uncommitted_changes_ignore_untracked():
 
         # Check if the file is staged
         assert filter_files_with_uncommitted_changes(path, {"test.txt": "test"}) == []
+

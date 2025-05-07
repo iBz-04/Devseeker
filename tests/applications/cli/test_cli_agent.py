@@ -5,15 +5,15 @@ import pytest
 
 from langchain.schema import AIMessage
 
-from gpt_engineer.applications.cli.cli_agent import CliAgent
-from gpt_engineer.core.default.disk_execution_env import DiskExecutionEnv
-from gpt_engineer.core.default.disk_memory import DiskMemory
+from devseeker.applications.cli.cli_agent import CliAgent
+from devseeker.core.default.disk_execution_env import DiskExecutionEnv
+from devseeker.core.default.disk_memory import DiskMemory
 
-# from gpt_engineer.core.default.git_version_manager import GitVersionManager
-from gpt_engineer.core.default.paths import ENTRYPOINT_FILE, memory_path
-from gpt_engineer.core.files_dict import FilesDict
-from gpt_engineer.core.prompt import Prompt
-from gpt_engineer.tools.custom_steps import clarified_gen, lite_gen
+# from devseeker.core.default.git_version_manager import GitVersionManager
+from devseeker.core.default.paths import ENTRYPOINT_FILE, memory_path
+from devseeker.core.files_dict import FilesDict
+from devseeker.core.prompt import Prompt
+from devseeker.tools.custom_steps import clarified_gen, lite_gen
 from tests.mock_ai import MockAI
 
 
@@ -152,3 +152,4 @@ def test_improve_standard_config(monkeypatch):
 
 if __name__ == "__main__":
     pytest.main()
+

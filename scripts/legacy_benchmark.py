@@ -52,7 +52,7 @@ def main(
                     "python",
                     "-u",  # Unbuffered output
                     "-m",
-                    "gpt_engineer.cli.main",
+                    "devseeker.cli.main",
                     bench_folder,
                     "--steps",
                     "benchmark",
@@ -84,7 +84,7 @@ def main(
                 [
                     "python",
                     "-m",
-                    "gpt_engineer.cli.main",
+                    "devseeker.cli.main",
                     bench_folder,
                     "--steps",
                     "evaluate",
@@ -224,3 +224,4 @@ def ask_yes_no(question: str) -> bool:
 
 if __name__ == "__main__":
     run(main)
+

@@ -4,9 +4,9 @@ from typing import Dict, Tuple
 
 import pytest
 
-from gpt_engineer.core.chat_to_files import parse_diffs
-from gpt_engineer.core.diff import is_similar
-from gpt_engineer.core.files_dict import file_to_lines_dict
+from devseeker.core.chat_to_files import parse_diffs
+from devseeker.core.diff import is_similar
+from devseeker.core.files_dict import file_to_lines_dict
 
 THIS_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -368,3 +368,4 @@ def test_long_file_diff():
 
 if __name__ == "__main__":
     pytest.main()
+

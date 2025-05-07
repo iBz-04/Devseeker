@@ -19,3 +19,4 @@ class Controller:
             self.game.move("right")
         elif keyboard.is_pressed("right"):
             self.game.move("left")
+

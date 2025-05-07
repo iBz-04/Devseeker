@@ -76,25 +76,25 @@ def test_cli_execution():
     """
     # Run the 'gpt-engineer' command with the '--help' option and capture its output.
     result = subprocess.run(
-        args=["gpt-engineer", "--help"], capture_output=True, text=True
+        args=["devseeker", "--help"], capture_output=True, text=True
     )
 
     # Assert that the CLI command executed successfully.
     assert (
         result.returncode == 0
-    ), f"gpt-engineer command failed with message: {result.stderr}"
+    ), f"devseeker command failed with message: {result.stderr}"
 
 
 @pytest.mark.requires_key
 def test_installed_main_execution(tmp_path, monkeypatch):
     # Ignore git installation check
-    monkeypatch.setattr("gpt_engineer.core.git.is_git_installed", lambda: False)
+    monkeypatch.setattr("devseeker.core.git.is_git_installed", lambda: False)
     tmp_path = Path(tmp_path)
     p = tmp_path / "projects/example"
     p.mkdir(parents=True)
     (p / "prompt").write_text("make a program that prints the outcome of 4+4")
     proc = subprocess.Popen(
-        ["gpte", str(p)],
+        ["devseeker", str(p)],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         text=True,
@@ -105,3 +105,4 @@ def test_installed_main_execution(tmp_path, monkeypatch):
     output, _ = proc.communicate(inputs)
 
     assert "8" in output
+

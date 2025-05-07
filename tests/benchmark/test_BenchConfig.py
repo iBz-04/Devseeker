@@ -2,7 +2,7 @@
 
 import pytest
 
-from gpt_engineer.benchmark.bench_config import (
+from devseeker.benchmark.bench_config import (
     AppsConfig,
     BenchConfig,
     GptmeConfig,
@@ -85,3 +85,4 @@ class TestBenchConfig:
         config_file = "invalid_config.toml"
         with pytest.raises(Exception):
             BenchConfig.from_toml(config_file)
+

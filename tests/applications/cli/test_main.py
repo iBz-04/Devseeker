@@ -11,11 +11,11 @@ from unittest.mock import patch
 import pytest
 import typer
 
-import gpt_engineer.applications.cli.main as main
+import devseeker.applications.cli.main as main
 
-from gpt_engineer.applications.cli.main import load_prompt
-from gpt_engineer.core.default.disk_memory import DiskMemory
-from gpt_engineer.core.prompt import Prompt
+from devseeker.applications.cli.main import load_prompt
+from devseeker.core.default.disk_memory import DiskMemory
+from devseeker.core.prompt import Prompt
 
 
 @functools.wraps(dataclasses.make_dataclass)
@@ -364,7 +364,7 @@ class TestLoadPrompt:
 #         gen = improve_generator()
 #         monkeypatch.setattr("builtins.input", lambda _: next(gen))
 #         monkeypatch.setattr(
-#             "gpt_engineer.core.default.steps.salvage_correct_hunks",
+#             "devseeker.core.default.steps.salvage_correct_hunks",
 #             mock_salvage_correct_hunks,
 #         )
 #         p = tmp_path / "projects/example"
@@ -417,7 +417,7 @@ class TestLoadPrompt:
 #         gen = improve_generator()
 #         monkeypatch.setattr("builtins.input", lambda _: next(gen))
 #         monkeypatch.setattr(
-#             "gpt_engineer.core.default.steps.salvage_correct_hunks",
+#             "devseeker.core.default.steps.salvage_correct_hunks",
 #             mock_salvage_correct_hunks,
 #         )
 #         p = tmp_path / "projects/example"
@@ -449,3 +449,4 @@ class TestLoadPrompt:
 # Error while improving the project: Mock exception in salvage_correct_hunks"""
 #         )
 #         del os.environ["GPTE_TEST_MODE"]
+

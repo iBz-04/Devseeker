@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from typing import List, Union
 
-from gpt_engineer.applications.cli.file_selector import FileSelector
+from devseeker.applications.cli.file_selector import FileSelector
 
 editorcalled = False
 
@@ -57,3 +57,4 @@ def test_file_selector_enhancement_sort(tmp_path):
         "a/aatest.py",
         "x/xxtest.py",
     ], "FileSelector.get_current_files is unsorted!"
+

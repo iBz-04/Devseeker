@@ -7,10 +7,10 @@ import pytest
 
 from langchain.schema import SystemMessage
 
-from gpt_engineer.core.ai import AI
-from gpt_engineer.core.default.disk_memory import DiskMemory
-from gpt_engineer.core.default.paths import ENTRYPOINT_FILE, PREPROMPTS_PATH
-from gpt_engineer.core.default.steps import (
+from devseeker.core.ai import AI
+from devseeker.core.default.disk_memory import DiskMemory
+from devseeker.core.default.paths import ENTRYPOINT_FILE, PREPROMPTS_PATH
+from devseeker.core.default.steps import (
     curr_fn,
     gen_code,
     gen_entrypoint,
@@ -18,10 +18,10 @@ from gpt_engineer.core.default.steps import (
     setup_sys_prompt,
     setup_sys_prompt_existing_code,
 )
-from gpt_engineer.core.files_dict import FilesDict
-from gpt_engineer.core.linting import Linting
-from gpt_engineer.core.preprompts_holder import PrepromptsHolder
-from gpt_engineer.core.prompt import Prompt
+from devseeker.core.files_dict import FilesDict
+from devseeker.core.linting import Linting
+from devseeker.core.preprompts_holder import PrepromptsHolder
+from devseeker.core.prompt import Prompt
 
 factorial_program = """
 To implement a function that calculates the factorial of a number in Python, we will create a simple Python module with a single function `factorial`. The factorial of a non-negative integer `n` is the product of all positive integers less than or equal to `n`. It is denoted by `n!`. The factorial of 0 is defined to be 1.
@@ -331,3 +331,4 @@ Some introductory text.
         assert (
             "test.py" in linted_files_dict
         ), "test.py should be in the linted files dict"
+
