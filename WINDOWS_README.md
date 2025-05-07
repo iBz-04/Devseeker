@@ -55,13 +55,15 @@ Now you can use `%OPENAI_API_KEY%` when prompted to input your key.
 ### Run
 
 - Create an empty folder. If inside the repo, you can:
-  - Run `xcopy /E projects\example projects\my-new-project` in the command line
+  - Run `xcopy /E projects\example projects\my-new-project` in the command line or `Copy-Item -Path "projects\example" -Destination "projects\my-new-project" -Recurse`
   - Or hold CTRL and drag the folder down to create a copy, then rename to fit your project
-- Fill in the `prompt` file in your new folder
-- `gpt-engineer projects/my-new-project`
+- Fill in the `prompt` file in your new folder with your command
+- `gpt-engineer projects/my-new-project` or `poetry run gpt-engineer projects/my-new-project`
   - (Note, `gpt-engineer --help` lets you see all available options. For example `--steps use_feedback` lets you improve/fix code in a project)
 
-By running gpt-engineer you agree to our [ToS](https://github.com/gpt-engineer-org/gpt-engineer/blob/main/TERMS_OF_USE.md).
+  NB: If you want to create a game you might want to install pygame `pip install pygame`
+
+
 
 ### Results
 
