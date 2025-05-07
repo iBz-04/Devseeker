@@ -46,4 +46,3 @@ def get_benchmark(name: str, config: BenchConfig) -> Benchmark:
     if name not in BENCHMARKS:
         raise ValueError(f"Unknown benchmark {name}.")
     return BENCHMARKS[name](config.__getattribute__(name))
-

@@ -395,4 +395,3 @@ def handle_improve_mode(prompt, agent, memory, files_dict, diff_timeout=3):
         memory.log(DEBUG_LOG_FILE, "\nCONSOLE OUTPUT:\n" + captured_string)
 
     return files_dict
-

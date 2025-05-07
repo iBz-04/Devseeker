@@ -67,4 +67,3 @@ class BenchConfig:
         BenchConfig.recursive_resolve(dict_config)
 
         return dict_config
-

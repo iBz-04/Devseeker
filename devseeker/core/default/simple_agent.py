@@ -98,4 +98,3 @@ def default_config_agent():
         An instance of SimpleAgent with a temporary directory as its base path.
     """
     return SimpleAgent.with_default_config(tempfile.mkdtemp())
-

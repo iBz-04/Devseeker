@@ -51,4 +51,3 @@ def test_token_logging(monkeypatch):
     # assert
     assert usageCostAfterStart > 0
     assert usageCostAfterNext > usageCostAfterStart
-

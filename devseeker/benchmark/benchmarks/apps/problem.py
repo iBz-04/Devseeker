@@ -23,4 +23,3 @@ class Problem:
     @cached_property
     def _parsed_inputs_outputs(self):
         return json.loads(self.input_output.replace("\n", ""))
-

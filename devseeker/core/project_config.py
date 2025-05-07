@@ -93,7 +93,9 @@ class Config:
         paths = _PathsConfig(**config_dict.get("paths", {}))
 
         # load optional devseeker-app section
-        devseeker_app_dict = config_dict.get("devseeker-app", config_dict.get("gptengineer-app", {}))
+        devseeker_app_dict = config_dict.get(
+            "devseeker-app", config_dict.get("gptengineer-app", {})
+        )
         devseeker_app = None
         if devseeker_app_dict:
             assert (
@@ -163,4 +165,3 @@ def read_config(config_file: Path) -> tomlkit.TOMLDocument:
     assert config_file.exists(), f"Config file {config_file} does not exist"
     with open(config_file, "r") as f:
         return tomlkit.load(f)
-

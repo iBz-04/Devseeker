@@ -538,4 +538,3 @@ class DisplayablePath(object):
             parent = parent.parent
 
         return "".join(reversed(parts))  # Assemble the parts into the final string
-

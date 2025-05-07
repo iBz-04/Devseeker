@@ -155,4 +155,3 @@ class TestOnDiskRepository:
         db["large_file"] = large_content
 
         assert db["large_file"] == large_content
-

@@ -331,4 +331,3 @@ Some introductory text.
         assert (
             "test.py" in linted_files_dict
         ), "test.py should be in the linted files dict"
-

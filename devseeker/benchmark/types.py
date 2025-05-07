@@ -92,4 +92,3 @@ class TaskResult:
         out_dict = {key: value for key, value in self.__dict__.items()}
         out_dict["solved"] = self.success_rate
         return out_dict
-

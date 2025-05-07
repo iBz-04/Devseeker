@@ -102,4 +102,3 @@ def load_gptme(config: GptmeConfig) -> Benchmark:
             ),
         ],
     )
-

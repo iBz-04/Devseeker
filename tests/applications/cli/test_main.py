@@ -449,4 +449,3 @@ class TestLoadPrompt:
 # Error while improving the project: Mock exception in salvage_correct_hunks"""
 #         )
 #         del os.environ["GPTE_TEST_MODE"]
-

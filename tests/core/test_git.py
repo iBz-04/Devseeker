@@ -106,4 +106,3 @@ def test_filter_by_uncommitted_changes_ignore_untracked():
 
         # Check if the file is staged
         assert filter_files_with_uncommitted_changes(path, {"test.txt": "test"}) == []
-

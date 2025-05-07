@@ -101,4 +101,3 @@ def test_ask_collection_consent_invalid_then_no(cleanup):
         result = ask_collection_consent()
     assert not Path(".devseeker_consent").exists()
     assert result is False
-

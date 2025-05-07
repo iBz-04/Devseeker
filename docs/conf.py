@@ -202,4 +202,3 @@ myst_enable_extensions = [
 ]
 
 myst_all_links_external = True
-

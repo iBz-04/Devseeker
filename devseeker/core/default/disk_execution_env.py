@@ -109,4 +109,3 @@ class DiskExecutionEnv(BaseExecutionEnv):
             print("--- Finished run ---\n")
 
         return stdout_full, stderr_full, p.returncode
-

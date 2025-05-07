@@ -60,4 +60,3 @@ class FileStore:
                         content = "binary file"
                     files[str(path.relative_to(self.working_dir))] = content
         return FilesDict(files)
-

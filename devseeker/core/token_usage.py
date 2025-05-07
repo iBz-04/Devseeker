@@ -295,4 +295,3 @@ class TokenUsageLog:
         except Exception as e:
             print(f"Error calculating usage cost: {e}")
             return None
-

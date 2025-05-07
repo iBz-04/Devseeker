@@ -83,4 +83,3 @@ def stage_uncommitted_to_git(path, files_dict, improve_mode):
                 ", ".join(modified_files),
             )
             stage_files(path, modified_files)
-

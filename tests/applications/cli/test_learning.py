@@ -108,4 +108,3 @@ def test_get_session():
             result = learning.get_session()
 
         assert result == "42"
-

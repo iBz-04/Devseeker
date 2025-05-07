@@ -112,4 +112,3 @@ def load_mbpp(config: MbppConfig) -> Benchmark:
         name="mbpp",
         tasks=tasks,
     )
-

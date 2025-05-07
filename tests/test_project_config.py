@@ -28,8 +28,7 @@ def test_config_load():
     assert config.devseeker_app.project_id == "..."
     assert config.devseeker_app.openapi
     assert (
-        config.devseeker_app.openapi[0].url
-        == "https://api.devseeker.app/openapi.json"
+        config.devseeker_app.openapi[0].url == "https://api.devseeker.app/openapi.json"
     )
     assert (
         config.devseeker_app.openapi[1].url
@@ -82,8 +81,7 @@ def test_config_from_dict_with_openapi():
     assert config.devseeker_app.project_id == "..."
     assert config.devseeker_app.openapi
     assert (
-        config.devseeker_app.openapi[0].url
-        == "https://api.devseeker.app/openapi.json"
+        config.devseeker_app.openapi[0].url == "https://api.devseeker.app/openapi.json"
     )
 
 
@@ -142,4 +140,3 @@ project_id = "..."
 )
 def test_filter_none(input_dict, expected):
     assert filter_none(input_dict) == expected
-

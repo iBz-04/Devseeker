@@ -62,4 +62,3 @@ class Linting:
             else:
                 print(f"No linter registered for {filename}.")
         return files_dict
-

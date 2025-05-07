@@ -152,4 +152,3 @@ def test_improve_standard_config(monkeypatch):
 
 if __name__ == "__main__":
     pytest.main()
-

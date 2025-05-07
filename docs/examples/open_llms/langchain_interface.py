@@ -15,4 +15,3 @@ prompt = (
 )
 
 model.invoke(prompt)
-

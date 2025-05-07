@@ -435,4 +435,3 @@ class ClipboardAI(AI):
         logger.debug(f"Chat completion finished: {messages}")
 
         return messages
-

@@ -27,4 +27,3 @@ class PrepromptsHolder:
     def get_preprompts(self) -> Dict[str, str]:
         preprompts_repo = DiskMemory(self.preprompts_path)
         return {file_name: preprompts_repo[file_name] for file_name in preprompts_repo}
-

@@ -105,4 +105,3 @@ def test_installed_main_execution(tmp_path, monkeypatch):
     output, _ = proc.communicate(inputs)
 
     assert "8" in output
-

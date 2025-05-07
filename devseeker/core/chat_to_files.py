@@ -243,4 +243,3 @@ def parse_hunk_header(header_line) -> Tuple[int, int, int, int]:
         start_line_post_edit,
         hunk_len_post_edit,
     )
-

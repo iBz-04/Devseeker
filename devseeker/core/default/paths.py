@@ -84,4 +84,3 @@ def metadata_path(path):
         The full path to the metadata directory.
     """
     return os.path.join(path, META_DATA_REL_PATH)
-

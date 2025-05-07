@@ -324,4 +324,3 @@ class DiskMemory(BaseMemory):
                 self.path / f"logs_{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
             )
             shutil.move(self.path / "logs", archive_dir)
-

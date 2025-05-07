@@ -23,4 +23,3 @@ class Problem:
                 break
 
         return "\n".join(lines)
-

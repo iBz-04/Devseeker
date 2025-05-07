@@ -29,4 +29,3 @@ class BaseAgent(ABC):
     @abstractmethod
     def improve(self, files_dict: FilesDict, prompt: Prompt) -> FilesDict:
         pass
-

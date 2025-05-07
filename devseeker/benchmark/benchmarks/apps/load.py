@@ -116,4 +116,3 @@ def load_apps(config: AppsConfig) -> Benchmark:
         name="apps",
         tasks=tasks,
     )
-

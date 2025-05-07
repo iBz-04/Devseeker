@@ -136,9 +136,7 @@ def human_review_input() -> Optional[Review]:
     if not check_collection_consent():
         return None
     print()
-    print(
-        colored("To help devseeker learn, please answer 3 questions:", "light_green")
-    )
+    print(colored("To help devseeker learn, please answer 3 questions:", "light_green"))
     print()
 
     ran = input("Did the generated code run at all? " + TERM_CHOICES)
@@ -211,9 +209,7 @@ def ask_collection_consent() -> bool:
     bool
         True if the user consents, False otherwise.
     """
-    answer = input(
-        "Is it ok if we store your prompts to help improve devseeker? (y/n)"
-    )
+    answer = input("Is it ok if we store your prompts to help improve devseeker? (y/n)")
     while answer.lower() not in ("y", "n"):
         answer = input("Invalid input. Please enter y or n: ")
 
@@ -301,4 +297,3 @@ def get_session() -> str:
         return user_id
     except IOError:
         return "ephemeral_" + str(random.randint(0, 2**32))
-

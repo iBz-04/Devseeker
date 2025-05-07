@@ -28,4 +28,3 @@ class BaseVersionManager(ABC):
     @abstractmethod
     def snapshot(self, files_dict: FilesDict) -> str:
         pass
-

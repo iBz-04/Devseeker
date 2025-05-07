@@ -148,4 +148,3 @@ def export_yaml_results(yaml_path, complete_results, config):
     complete_results["config"] = config
     with open(yaml_path, "w") as f:
         yaml.dump(complete_results, f, indent=4)
-

@@ -417,4 +417,3 @@ def count_ratio(str1, str2) -> float:
         return 1
     else:
         return intersection / longer_length
-

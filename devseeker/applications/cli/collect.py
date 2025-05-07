@@ -175,4 +175,3 @@ def collect_and_send_human_review(
     review = human_review_input()
     if review:
         collect_learnings(prompt, model, temperature, config, memory, review)
-

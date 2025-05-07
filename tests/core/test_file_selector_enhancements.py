@@ -57,4 +57,3 @@ def test_file_selector_enhancement_sort(tmp_path):
         "a/aatest.py",
         "x/xxtest.py",
     ], "FileSelector.get_current_files is unsorted!"
-

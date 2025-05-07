@@ -108,4 +108,3 @@ def test_list_type_message_with_image():
     assert (
         token_usage_log.log()[-1].in_step_total_tokens == expected_total_tokens
     ), f"Expected {expected_total_tokens} tokens, got {token_usage_log.log()[-1].in_step_total_tokens}"
-

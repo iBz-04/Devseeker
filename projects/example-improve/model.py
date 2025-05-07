@@ -30,4 +30,3 @@ class Game:
         # Check for collision with boundaries
         if not (0 <= self.snake.head.x < 10 and 0 <= self.snake.head.y < 10):
             self.is_running = False
-

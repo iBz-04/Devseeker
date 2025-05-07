@@ -56,4 +56,3 @@ SUPPORTED_LANGUAGES = [
     #     "tree_sitter_name": "swift"
     # },
 ]
-

@@ -85,4 +85,3 @@ class TestBenchConfig:
         config_file = "invalid_config.toml"
         with pytest.raises(Exception):
             BenchConfig.from_toml(config_file)
-

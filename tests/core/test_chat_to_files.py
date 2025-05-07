@@ -368,4 +368,3 @@ def test_long_file_diff():
 
 if __name__ == "__main__":
     pytest.main()
-
