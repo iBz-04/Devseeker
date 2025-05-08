@@ -117,4 +117,3 @@ lines-between-types = 1
 markers = [
   "requires_key: marks tests as requiring access to a valid OPENAI_API_KEY (deselect with '-m \"not requires_key\"')",
 ]
-
