@@ -63,9 +63,6 @@ Now you can use `%OPENAI_API_KEY%` when prompted to input your key.
 
   NB: If you want to create a game you might want to install pygame `pip install pygame`
 
-
-
 ### Results
 
 - Check the generated files in `projects/my-new-project/workspace`
-

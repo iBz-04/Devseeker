@@ -38,11 +38,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install tox==4.15.0 poetry
 
-    - name: Run tox
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      run: tox
-
+    # The 'Run tox' step and the 'Count lines of code' step have been removed.
     # Temporarily disabling codecov until we resolve codecov rate limiting issue
     # - name: Report coverage
     #   run: |

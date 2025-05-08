@@ -116,15 +116,7 @@ If you want to see our broader ambitions, check out the [roadmap](https://github
 [discord](https://discord.gg/8tcDQ89Ej2)
 to learn how you can [contribute](.github/CONTRIBUTING.md) to it.
 
-devseeker is [governed](https://github.com/devseeker-org/devseeker/blob/main/GOVERNANCE.md) by a board of long-term contributors. If you contribute routinely and have an interest in shaping the future of devseeker, you will be considered for the board.
-
-## Significant contributors
-<ul style="list-style-type: none; padding: 0; display: flex; flex-wrap: wrap;"> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/ATheorell"> <img src="https://avatars.githubusercontent.com/u/143704446?s=64&v=4" alt="@ATheorell" width="32" height="32" style="border-radius: 50%;"> @ATheorell </a> </li> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/similato87"> <img src="https://avatars.githubusercontent.com/u/71301573?s=64&v=4" alt="@similato87" width="32" height="32" style="border-radius: 50%;"> @similato87 </a> </li> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/TheoMcCabe"> <img src="https://avatars.githubusercontent.com/u/9841960?s=64&v=4" alt="@TheoMcCabe" width="32" height="32" style="border-radius: 50%;"> @TheoMcCabe </a> </li> <li style="margin-right: 10px; margin-bottom: 10px;"> <a href="https://github.com/captivus"> <img src="https://avatars.githubusercontent.com/u/366332?s=64&v=4" alt="@captivus" width="32" height="32" style="border-radius: 50%;"> @captivus </a> </li> </ul>
-
-
-## Example
-
+devseeker is [governed](https://github.com/devseeker-org/devseeker/blob/main/GOVERNANCE.md) by the [Contributor Covenant Code of Conduct](https://github.com/devseeker-org/devseeker/blob/main/CODE_OF_CONDUCT.md). All contributors are expected to uphold this code.
 
 
 https://github.com/devseeker-org/devseeker/assets/4467025/40d0a9a8-82d0-4432-9376-136df0d57c99
-
