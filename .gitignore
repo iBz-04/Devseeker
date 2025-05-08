@@ -73,7 +73,7 @@ docs/tools
 
 # coding assistants
 .aider*
-.gpteng
+.devseeker
 
 # webapp specific
 webapp/node_modules
@@ -90,9 +90,10 @@ webapp/.next/
 .tox
 
 # locally saved datasets
-gpt_engineer/benchmark/benchmarks/apps/dataset
-gpt_engineer/benchmark/benchmarks/mbpp/dataset
+devseeker/benchmark/benchmarks/apps/dataset
+devseeker/benchmark/benchmarks/mbpp/dataset
 
-gpt_engineer/benchmark/minimal_bench_config.toml
+devseeker/benchmark/minimal_bench_config.toml
 
 test.json
+

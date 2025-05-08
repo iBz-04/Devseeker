@@ -3,8 +3,9 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Osika
     given-names: Anton
-title: gpt-engineer
+title: devseeker
 version: 0.1.0
 date-released: 2023-04-23
-repository-code: https://github.com/gpt-engineer-org/gpt-engineer
-url: https://gpt-engineer.readthedocs.io
+repository-code: https://github.com/devseeker-org/devseeker
+url: https://devseeker.readthedocs.io
+

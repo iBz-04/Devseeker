@@ -1,5 +1,5 @@
 services:
-  gpt-engineer:
+  devseeker:
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -11,6 +11,7 @@ services:
     ##  OR set the API key directly
     # environment:
       # - OPENAI_API_KEY=YOUR_API_KEY
-    image: gpt-engineer
+    image: devseeker
     volumes:
       - ./projects/example:/project
+

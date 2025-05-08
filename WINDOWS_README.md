@@ -1,7 +1,7 @@
 # Windows Setup
 ## Short version
 
-On Windows, follow the standard [README.md](https://github.com/gpt-engineer-org/gpt-engineer/blob/main/README.md), but to set API key do one of:
+On Windows, follow the standard [README.md](https://github.com/devseeker-org/devseeker/blob/main/README.md), but to set API key do one of:
 - `set OPENAI_API_KEY=[your api key]` on cmd
 - `$env:OPENAI_API_KEY="[your api key]"` on powershell
 
@@ -15,19 +15,19 @@ Run `pip install devseeker` in the command line as an administrator
 
 Or:
 
-  1. Open your web browser and navigate to the Python Package Index (PyPI) website: <https://pypi.org/project/gpt-engineer/>.
-  2. On the PyPI page for the gpt-engineer package, locate the "Download files" section. Here you'll find a list of available versions and their corresponding download links.
-  3. Identify the version of gpt-engineer you want to install and click on the associated download link. This will download the package file (usually a .tar.gz or .whl file) to your computer.
+  1. Open your web browser and navigate to the Python Package Index (PyPI) website: <https://pypi.org/project/devseeker/>.
+  2. On the PyPI page for the devseeker package, locate the "Download files" section. Here you'll find a list of available versions and their corresponding download links.
+  3. Identify the version of devseeker you want to install and click on the associated download link. This will download the package file (usually a .tar.gz or .whl file) to your computer.
   4. Once the package file is downloaded, open your Python development environment or IDE.
   5. In your Python development environment, look for an option to install packages or manage dependencies. The exact location and terminology may vary depending on your IDE. For example, in PyCharm, you can go to "File" > "Settings" > "Project: \<project-name>" > "Python Interpreter" to manage packages.
   6. In the package management interface, you should see a list of installed packages. Look for an option to add or install a new package.
   7. Click on the "Add Package" or "Install Package" button.
   8. In the package installation dialog, choose the option to install from a file or from a local source.
-  9. Browse and select the downloaded gpt-engineer package file from your computer.
+  9. Browse and select the downloaded devseeker package file from your computer.
 
 For **development**:
 
-- `git clone git@github.com:gpt-engineer-org/devseeker.git`
+- `git clone git@github.com:devseeker-org/devseeker.git`
 - `cd devseeker`
 - `poetry install`
 - `poetry shell` to activate the virtual environment
@@ -68,3 +68,4 @@ Now you can use `%OPENAI_API_KEY%` when prompted to input your key.
 ### Results
 
 - Check the generated files in `projects/my-new-project/workspace`
+

@@ -25,7 +25,7 @@ Information about the failure, including environment details, such as LLM used.
 
 ### Failure Logs
 
-If your project includes a debug_log_file.txt, kindly upload it from your_project/.gpteng/memory/ directory. This file encompasses all the necessary logs. Should the file prove extensive, consider utilizing GitHub's "add files" functionality.
+If your project includes a debug_log_file.txt, kindly upload it from your_project/.devseeker/memory/ directory. This file encompasses all the necessary logs. Should the file prove extensive, consider utilizing GitHub's "add files" functionality.
 
 ## System Information
 
@@ -33,4 +33,5 @@ Please copy and paste the output of the `gpte --sysinfo` command as part of your
 
 ## Installation Method
 
-Please specify whether you installed GPT-Engineer using `pip install` or by building the repository.
+Please specify whether you installed devseeker using `pip install` or by building the repository.
+

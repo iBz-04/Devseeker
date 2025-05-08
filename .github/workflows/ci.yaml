@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - gpt_engineer/**
+      - devseeker/**
       - tests/**
   pull_request:
     branches: [ main ]
@@ -47,3 +47,4 @@ jobs:
     # - name: Report coverage
     #   run: |
     #     bash <(curl -s https://codecov.io/bash)
+

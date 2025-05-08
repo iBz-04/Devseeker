@@ -13,7 +13,8 @@ assignees: ''
 
 
 ## Description
-A clear and concise description of how the documentation at https://gpt-engineer.readthedocs.io/en/latest/ is providing wrong/insufficient information.
+A clear and concise description of how the documentation at https://devseeker.readthedocs.io/en/latest/ is providing wrong/insufficient information.
 
 ## Suggestion
 How can it be improved
+
