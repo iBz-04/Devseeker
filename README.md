@@ -49,7 +49,6 @@ Choose **one** of:
 Check the [Windows README](./WINDOWS_README.md) for Windows usage.
 
 **Other ways to run:**
-- Use Docker ([instructions](docker/README.md))
 - Do everything in your browser:
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/devseeker-org/devseeker/codespaces)
 
