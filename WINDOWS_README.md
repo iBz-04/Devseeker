@@ -1,7 +1,6 @@
-# Windows Setup
-## Short version
+# Windows Users Setup
 
-On Windows, follow the standard [README.md](https://github.com/devseeker-org/devseeker/blob/main/README.md), but to set API key do one of:
+On Windows, to set API key do one of the following:
 - `set OPENAI_API_KEY=[your api key]` on cmd
 - `$env:OPENAI_API_KEY="[your api key]"` on powershell
 

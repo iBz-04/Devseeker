@@ -10,7 +10,7 @@ repository = "https://github.com/iBz-04/Devseekerr"
 documentation = "https://github.com/iBz-04/Devseeker/blob/main/README.md"
 classifiers = [
   "Development Status :: 4 - Beta",
-  "Topic :: Software Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
 [build-system]

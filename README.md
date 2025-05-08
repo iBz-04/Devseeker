@@ -1,8 +1,6 @@
 # devseeker
 
 [![PyPI version](https://img.shields.io/pypi/v/devseeker)](https://pypi.org/project/devseeker)
-[![License](https://img.shields.io/github/license/devseeker-org/devseeker)](LICENSE)
-[![Tests](https://github.com/devseeker-org/devseeker/actions/workflows/ci.yaml/badge.svg)](https://github.com/devseeker-org/devseeker/actions/workflows/ci.yaml)
 
 **devseeker is an CLI coding agent for generating and improving code through prompts**
 
