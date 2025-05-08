@@ -30,7 +30,7 @@ class GptmeConfig:
 
 @dataclass
 class BenchConfig:
-    """Configuration for the GPT Engineer CLI and gptengineer.app via `gpt-engineer.toml`."""
+    """Configuration for the CLI and devseeker.app via `devseeker.toml`."""
 
     apps: AppsConfig = field(default_factory=AppsConfig)
     mbpp: MbppConfig = field(default_factory=MbppConfig)

@@ -74,7 +74,7 @@ prompt_text = "Make a python program that writes 'hello' to a file called 'outpu
 
 
 class TestMain:
-    #  Runs gpt-engineer cli interface for many parameter configurations, BUT DOES NOT CODEGEN! Only testing cli.
+    #  Runs cli interface for many parameter configurations, BUT DOES NOT CODEGEN! Only testing cli.
     def test_default_settings_generate_project(self, tmp_path, monkeypatch):
         p = tmp_path / "projects/example"
         p.mkdir(parents=True)
@@ -82,7 +82,7 @@ class TestMain:
         args = DefaultArgumentsMain(str(p), llm_via_clipboard=True, no_execution=True)
         args()
 
-    #  Runs gpt-engineer with improve mode and improves an existing project in the specified path.
+    #  Runs with improve mode and improves an existing project in the specified path.
     def test_improve_existing_project(self, tmp_path, monkeypatch):
         p = tmp_path / "projects/example"
         p.mkdir(parents=True)
@@ -92,7 +92,7 @@ class TestMain:
         )
         args()
 
-    #  Runs gpt-engineer with improve mode and improves an existing project in the specified path, with skip_file_selection
+    #  Runs with improve mode and improves an existing project in the specified path, with skip_file_selection
     def test_improve_existing_project_skip_file_selection(self, tmp_path, monkeypatch):
         p = tmp_path / "projects/example"
         p.mkdir(parents=True)
@@ -107,7 +107,7 @@ class TestMain:
         args()
         assert args.skip_file_selection, "Skip_file_selection not set"
 
-    #  Runs gpt-engineer with improve mode and improves an existing project in the specified path, with skip_file_selection
+    # mproves an existing project in the specified path, with skip_file_selection
     def test_improve_existing_project_diff_timeout(self, tmp_path, monkeypatch):
         p = tmp_path / "projects/example"
         p.mkdir(parents=True)
@@ -146,7 +146,7 @@ class TestMain:
         # DiskExecutionEnv(path=p)
         # del os.environ["GPTE_TEST_MODE"]
 
-    #  Runs gpt-engineer with lite mode and generates a project with only the main prompt.
+    #  Runs  with lite mode and generates a project with only the main prompt.
     def test_lite_mode_generate_project(self, tmp_path, monkeypatch):
         p = tmp_path / "projects/example"
         p.mkdir(parents=True)
@@ -156,7 +156,7 @@ class TestMain:
         )
         args()
 
-    #  Runs gpt-engineer with clarify mode and generates a project after discussing the specification with the AI.
+    #  Runs with clarify mode and generates a project after discussing the specification with the AI.
     def test_clarify_mode_generate_project(self, tmp_path, monkeypatch):
         p = tmp_path / "projects/example"
         p.mkdir(parents=True)
@@ -166,7 +166,7 @@ class TestMain:
         )
         args()
 
-    #  Runs gpt-engineer with self-heal mode and generates a project after discussing the specification with the AI and self-healing the code.
+    #  Runs with self-heal mode and generates a project after discussing the specification with the AI and self-healing the code.
     def test_self_heal_mode_generate_project(self, tmp_path, monkeypatch):
         p = tmp_path / "projects/example"
         p.mkdir(parents=True)
@@ -222,7 +222,7 @@ class TestLoadPrompt:
 
             with patch(
                 "builtins.input",
-                return_value="What application do you want gpt-engineer to generate?",
+                return_value="What do you want to create?",
             ):
                 result = load_prompt(
                     input_repo, improve_mode, prompt_file, image_directory
@@ -230,7 +230,7 @@ class TestLoadPrompt:
 
             assert isinstance(result, Prompt)
             assert (
-                result.text == "What application do you want gpt-engineer to generate?"
+                result.text == "What project are you trying to create?"
             )
             assert result.image_urls is None
 
@@ -260,7 +260,7 @@ class TestLoadPrompt:
 
             with patch(
                 "builtins.input",
-                return_value="What application do you want gpt-engineer to generate?",
+                return_value="What application do you want devseekerto generate?",
             ):
                 result = load_prompt(
                     input_repo, improve_mode, prompt_file, image_directory
@@ -268,7 +268,7 @@ class TestLoadPrompt:
 
             assert isinstance(result, Prompt)
             assert (
-                result.text == "What application do you want gpt-engineer to generate?"
+                result.text == "What app do you want devseeker to create?"
             )
             assert result.image_urls is None
 

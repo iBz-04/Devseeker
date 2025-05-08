@@ -2,7 +2,7 @@
 Module `collect` - Data Handling and RudderStack Integration
 
 This module provides functionalities to handle and send learning data to RudderStack
-for the purpose of analysis and to improve the gpt-engineer system. The data is sent
+for the purpose of analysis and to improve the system. The data is sent
 only when the user gives consent to share.
 
 Functions:
@@ -13,12 +13,12 @@ Functions:
 Dependencies:
     hashlib: For generating SHA-256 hash.
     typing: For type annotations.
-    devseeker.core: Core functionalities of gpt-engineer.
+    devseeker.core: Core functionalities of devseeker.
     devseeker.cli.learning: Handles the extraction of learning data.
 
 Notes:
     Data sent to RudderStack is not shared with third parties and is used solely to
-    improve gpt-engineer and allow it to handle a broader range of use cases.
+    improve devseeker and allow it to handle a broader range of use cases.
     Consent logic is in devseeker/learning.py.
 """
 
@@ -47,7 +47,7 @@ def send_learning(learning: Learning):
     -----
     This function is only called if consent is given to share data.
     Data is not shared to a third party. It is used with the sole purpose of
-    improving gpt-engineer, and letting it handle more use cases.
+    improving devseeker, and letting it handle more use cases.
     Consent logic is in devseeker/learning.py.
     """
     import rudderstack.analytics as rudder_analytics

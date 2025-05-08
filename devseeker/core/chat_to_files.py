@@ -151,7 +151,7 @@ def parse_diffs(diff_string: str, diff_timeout=3) -> dict:
                         f"\nMultiple diffs found for {filename}. Only the first one is kept."
                     )
     except TimeoutError:
-        print("gpt-engineer timed out while parsing git diff")
+        print("devseeker timed out while parsing git diff")
 
     if not diffs:
         print(

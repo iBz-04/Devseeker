@@ -1,64 +1,63 @@
-Building Docs with Sphinx
-=========================
+# Building Documentation
 
-This example shows a basic Sphinx docs project with Read the Docs. This project is using `sphinx` with `readthedocs`
-project template.
+This guide explains how to build and preview the DevSeeker documentation locally using Sphinx.
 
-Some useful links are given below to lear and contribute in the project.
+## Prerequisites
 
-📚 [docs/](https://www.sphinx-doc.org/en/master/usage/quickstart.html)<br>
-A basic Sphinx project lives in `docs/`, it was generated using Sphinx defaults. All the `*.rst` & `*.md` make up sections in the documentation. Both `.rst` and `.md` formats are supported in this project
+Ensure you have:
+- Python 3.10 or higher
+- Poetry
 
-⚙️ [.readthedocs.yaml](https://docs.readthedocs.io/en/stable/config-file/v2.html)<br>
-Read the Docs Build configuration is stored in `.readthedocs.yaml`.
+## Install Dependencies
 
+Install core and documentation dependencies:
 
-Example Project usage
----------------------
+```bash
+poetry install --extras doc
+```
 
-``Poetry`` is the package manager for ``gpt-engineer``. In order to build documentation, we have to add docs requirements in
-development environment.
+Activate the virtual environment:
 
-This project has a standard readthedocs layout which is built by Read the Docs almost the same way that you would build it
-locally (on your own laptop!).
+```bash
+poetry shell
+```
 
-You can build and view this documentation project locally - we recommend that you activate a ``poetry shell``.
+## Generate API Reference
 
-Update ``repository_stats.md`` file under ``docs/intro``
+Regenerate the API reference from project docstrings:
 
-```console
-# Install required Python dependencies (MkDocs etc.)
-poetry install
-cd docs/
-
-# Create the `api_reference.rst`
+```bash
+cd docs
 python create_api_rst.py
+```
 
-# Build the docs
+## Build HTML Documentation
+
+From the docs directory, run:
+
+```bash
 make html
+```
 
-## Alternatively, to rebuild the docs on changes with live-reload in the browser
+The site will be generated in `docs/_build/html`. Open `docs/_build/html/index.html` in your browser.
+
+## Live Reload
+
+For automatic rebuilds on file changes and live reload:
+
+```bash
+cd docs
 sphinx-autobuild . _build/html
 ```
 
-Project Docs Structure
-----------------------
-If you are new to Read the Docs, you may want to refer to the [Read the Docs User documentation](https://docs.readthedocs.io/).
+Then open http://127.0.0.1:8000 in your browser.
 
-Below is the rundown of documentation structure for `pandasai`, you need to know:
+## Publish on Read the Docs
 
-1. place your `docs/` folder alongside your Python project.
-2. copy `.readthedocs.yaml` and the `docs/` folder into your project root.
-3. `docs/api_reference.rst` contains the API documentation created using `docstring`.  Run the `create_api_rst.py` to update the API reference file.
-4. Project is using standard Google Docstring Style.
-5. Rebuild the documentation locally to see that it works.
-6. Documentation are hosted on [Read the Docs tutorial](https://docs.readthedocs.io/en/stable/tutorial/)
+Documentation is published on Read the Docs. To customize the build, add or update `.readthedocs.yaml` at the project root. For configuration details, see:
+https://docs.readthedocs.io/en/stable/config-file/v2.html
 
+## See Also
 
-Read the Docs tutorial
-----------------------
-
-To get started with Read the Docs, you may also refer to the
-[Read the Docs tutorial](https://docs.readthedocs.io/en/stable/tutorial/). I
-
-With every release, build the documentation manually.
+- [Sphinx Quickstart](https://www.sphinx-doc.org/en/master/usage/quickstart.html)
+- [Documentation Index](index.rst)

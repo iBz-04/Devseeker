@@ -161,7 +161,7 @@ def clarified_gen(
         print()
 
         if not user_input or user_input == "c":
-            print("(letting gpt-engineer make its own assumptions)")
+            print("(letting devseeker make its own assumptions)")
             print()
             messages = ai.next(
                 messages,

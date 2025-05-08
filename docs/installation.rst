@@ -1,67 +1,39 @@
-.. highlight:: shell
+.. highlight:: bash
 
-============
+================
 Installation
-============
+================
 
-
-Stable release
+Stable Release
 --------------
 
-To install ``gpt-engineer``, run this command in your terminal:
+Install DevSeeker via pip:
 
 .. code-block:: console
 
-    $ python -m pip install gpt-engineer
+   $ python -m pip install devseeker
 
-This is the preferred method to install ``gpt-engineer``, as it will always install the most recent stable release.
+Development Installation
+------------------------
 
-If you don't have `pip`_ installed, this `Python installation guide`_ can guide
-you through the process.
-
-.. note::
-
-    When reporting bugs, please specify your installation method (using `pip install` or by building the repository) in the "Installation Method" section of the bug report template.
-
-.. _pip: https://pip.pypa.io
-.. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
-
-
-From sources
-------------
-
-The sources for ``gpt-engineer`` can be downloaded from the `Github repo`_.
-
-You can either clone the public repository:
+Clone the repository and install dependencies:
 
 .. code-block:: console
 
-    $ git clone https://github.com/gpt-engineer-org/gpt-engineer.git
+   $ git clone https://github.com/iBz-04/devseeker.git
+   $ cd devseeker
+   $ poetry install --extras doc
+   $ poetry shell
 
-Once you have a copy of the source, you can install it with:
+Configuration
+-------------
 
-.. code-block:: console
-
-    $ cd gpt-engineer
-    $ poetry install
-    $ poetry shell
-
-
-.. _Github repo: https://github.com/gpt-engineer-org/gpt-engineer.git
-
-Troubleshooting
----------------
-
-For mac and linux system, there are sometimes slim python installations that do not include the ``gpt-engineer`` requirement tkinter, which is a standard library and thus not pip installable.
-
-To install tkinter on mac, you can for example use brew:
+DevSeeker requires an OpenAI API key. Set it as follows:
 
 .. code-block:: console
 
-    $ brew install python-tk
+   $ export OPENAI_API_KEY=your_api_key
 
-On debian-based linux systems you can use:
+Or create a `.env` file in the project root with:
 
-.. code-block:: console
-
-    $ sudo apt-get install python3-tk
+   OPENAI_API_KEY=your_api_key 

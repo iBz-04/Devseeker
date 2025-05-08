@@ -13,7 +13,7 @@ Key Components:
 
 Usage:
 Typically used in project setup or management phases for selecting specific files.
-It operates within the GPT-Engineer environment, relying on core functionalities for
+It operates within the devseeker environment, relying on core functionalities for
 file handling and persistence.
 """
 
@@ -56,7 +56,7 @@ class FileSelector:
         "# Remove '#' to select a file or turn off linting.\n\n"
         "# Linting with BLACK (Python) enhances code suggestions from LLMs. "
         "To disable linting, uncomment the relevant option in the linting settings.\n\n"
-        "# gpt-engineer can only read selected files. "
+        "# devseeker can only read selected files. "
         "Including irrelevant files will degrade performance, "
         "cost additional tokens and potentially overflow token limit.\n\n"
     )

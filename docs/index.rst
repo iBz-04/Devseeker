@@ -1,5 +1,5 @@
-Welcome to GPT-ENGINEER's Documentation
-=======================================
+Welcome to DevSeeker's Documentation
+====================================
 
 .. toctree::
    :maxdepth: 2
@@ -11,26 +11,21 @@ Welcome to GPT-ENGINEER's Documentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: USER GUIDES:
+   :caption: USAGE:
 
-   windows_readme_link
    open_models.md
    tracing_debugging.md
+   windows_readme_link
 
 .. toctree::
-   :maxdepth: 2
-   :caption: CONTRIBUTE:
+   :maxdepth: 1
+   :caption: DEVELOPER GUIDE:
 
-   contributing_link
-   roadmap_link
-   code_conduct_link
-   disclaimer_link
    docs_building.md
-   terms_link
 
 .. toctree::
    :maxdepth: 2
-   :caption: PACKAGE API:
+   :caption: API REFERENCE:
 
    api_reference
 

@@ -1,21 +1,22 @@
-Tracing and Debugging with Weights and Biases
-============================
+# Tracing and Debugging with Weights & Biases
 
-## How to store results in Weights & Biases
+DevSeeker can integrate with Weights & Biases (W&B) to capture prompt inputs, model outputs, and execution traces of your LLM chains for comprehensive analysis.
 
-W&B Prompts is a suite of LLMOps tools built for the development of LLM-powered applications. Use W&B Prompts to visualize and inspect the execution flow of your LLMs, analyze the inputs and outputs of your LLMs, view the intermediate results and securely store and manage your prompts and LLM chain configurations. Read more at https://docs.wandb.ai/guides/prompts
+## Setup W&B
 
-```shell
- $ export WANDB_API_KEY="YOUR-KEY"
- $ export LANGCHAIN_WANDB_TRACING=true
- ```
+Sign up for free at https://wandb.ai and retrieve your API key.
 
-Sign up for free at https://wandb.ai
+```bash
+export WANDB_API_KEY=your_wandb_api_key
+export LANGCHAIN_WANDB_TRACING=true
+```
 
+## Running DevSeeker with W&B
 
-Debug and trace the execution of the AI generated code to compare across different experiments with `gpt-engineer` and related prompts
-![](https://drive.google.com/uc?id=10wuLwyPbH00CoESsS2Q2q6mkdrtS91jd)
+Run DevSeeker in your project directory:
 
+```bash
+devseeker my-project
+```
 
-Automatically capture and save terminal `stdout` to one easily accessible and shareable webpage
-![](https://drive.google.com/uc?id=1gVva7ZfpwbTSBsnNvId6iq09Gw5ETOks)
+W&B will automatically log your runs. Visit https://wandb.ai to view prompts, responses, and trace visualizations. 

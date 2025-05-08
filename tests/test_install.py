@@ -72,9 +72,9 @@ def test_installation():
 def test_cli_execution():
     """
     Test to verify that the command-line interface (CLI) of the package works as expected.
-    This test assumes that the 'gpt-engineer' command is available and operational after installation.
+    This test assumes that the 'devseeker' command is available and operational after installation.
     """
-    # Run the 'gpt-engineer' command with the '--help' option and capture its output.
+    # Run the 'devseeker' command with the '--help' option and capture its output.
     result = subprocess.run(
         args=["devseeker", "--help"], capture_output=True, text=True
     )

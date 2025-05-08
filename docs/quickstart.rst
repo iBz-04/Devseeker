@@ -2,67 +2,48 @@
 Quickstart
 ==========
 
-Installation
-============
+## Setup API Key
 
-To install LangChain run:
+Ensure your OpenAI API key is configured:
 
 .. code-block:: console
 
-    $ python -m pip install gpt-engineer
+   $ export OPENAI_API_KEY=your_api_key
 
-For more details, see our [Installation guide](/instllation.html).
+Or add it to a `.env` file at the project root:
 
-Setup API Key
-=============
+   OPENAI_API_KEY=your_api_key
 
-Choose one of the following:
+## Creating a New Project
 
-- Export env variable (you can add this to ``.bashrc`` so that you don't have to do it each time you start the terminal)
+1. Create a new directory for your project:
 
-  .. code-block:: console
+   .. code-block:: console
 
-      $ export OPENAI_API_KEY=[your api key]
+      $ mkdir my-project
 
-- Add it to the ``.env`` file:
+2. Inside the directory, create a file named `prompt` containing your instructions.
 
-  - Create a copy of ``.env.template`` named ``.env``
-  - Add your ``OPENAI_API_KEY`` in .env
+3. Run DevSeeker:
 
-- If you want to use a custom model, visit our docs on `using open models and azure models <./open_models.html>`_.
+   .. code-block:: console
 
-- To set API key on windows check the `Windows README <./windows_readme_link.html>`_.
+      $ devseeker my-project
 
-Building with ``gpt-engineer``
-==============================
+Aliases: `ds`, `dste`
 
-Create new code (default usage)
--------------------------------
+## Improving Existing Code
 
-- Create an empty folder for your project anywhere on your computer
-- Create a file called ``prompt`` (no extension) inside your new folder and fill it with instructions
-- Run ``gpte <project_dir>`` with a relative path to your folder
-- For example, if you create a new project inside the gpt-engineer ``/projects`` directory:
+1. Navigate to an existing project directory.
 
-  .. code-block:: console
+2. Create or update the `prompt` file with your improvement instructions.
 
-    $ gpte projects/my-new-project
+3. Run DevSeeker in improve mode:
 
-Improve Existing Code
----------------------
+   .. code-block:: console
 
-- Locate a folder with code which you want to improve anywhere on your computer
-- Create a file called ``prompt`` (no extension) inside your new folder and fill it with instructions for how you want to improve the code
-- Run ``gpte <project_dir> -i`` with a relative path to your folder
-- For example, if you want to run it against an existing project inside the gpt-engineer ``/projects`` directory:
+      $ devseeker my-project -i
 
-  .. code-block:: console
+## Viewing Help
 
-    $ gpte projects/my-old-project -i
-
-By running ``gpt-engineer`` you agree to our `terms <./terms_link.html>`_.
-
-To **run in the browser** you can simply:
-
-.. image:: https://github.com/codespaces/badge.svg
-   :target: https://github.com/gpt-engineer-org/gpt-engineer/codespaces
+Run `devseeker --help` or `ds --help` to see all available options.
