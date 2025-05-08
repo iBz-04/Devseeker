@@ -1,10 +1,10 @@
 cff-version: 1.0.0
-message: "If you use this software, please cite it as below."
+message: "Do you use this project?, if yes,  cite it as shown below."
 authors:
-  - family-names: Osika
-    given-names: Anton
+  - family-names: Rayamah
+    given-names: Ibrahim
 title: devseeker
 version: 0.1.0
-date-released: 2023-04-23
-repository-code: https://github.com/devseeker-org/devseeker
-url: https://devseeker.readthedocs.io
+date-released: 2025-05-08
+repository-code: https://github.com/iBz-04/devseeker
+url: https://github.com/iBz-04/devseeker
