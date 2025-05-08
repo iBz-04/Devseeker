@@ -40,7 +40,7 @@ import os
 
 from pathlib import Path
 
-META_DATA_REL_PATH = ".gpteng"
+META_DATA_REL_PATH = ".devseek"
 MEMORY_REL_PATH = os.path.join(META_DATA_REL_PATH, "memory")
 CODE_GEN_LOG_FILE = "all_output.txt"
 IMPROVE_LOG_FILE = "improve.txt"

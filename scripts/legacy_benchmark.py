@@ -110,7 +110,7 @@ def generate_report(benchmarks, benchmark_path):
     headers = ["Benchmark", "Ran", "Works", "Perfect", "Notes"]
     rows = []
     for bench_folder in benchmarks:
-        memory = bench_folder / ".gpteng" / "memory"
+        memory = bench_folder / ".devseek" / "memory"
         with open(memory / "review") as f:
             review = json.loads(f.read())
             rows.append(

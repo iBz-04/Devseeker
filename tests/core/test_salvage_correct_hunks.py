@@ -110,7 +110,7 @@ def clean_up_folder():
     yield
     # Teardown code: delete a folder and all its contents
     print("cleaning up")
-    folder_path = os.path.join(os.path.dirname(__file__), ".gpteng")
+    folder_path = os.path.join(os.path.dirname(__file__), ".devseek")
     shutil.rmtree(folder_path, ignore_errors=True)
 
 

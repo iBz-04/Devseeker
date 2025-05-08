@@ -22,7 +22,7 @@ def set_file_selector_tmpproject(tmp_path):
     os.mkdir(project_path / "x")
     os.mkdir(project_path / "a")
 
-    gpteng_path = project_path / ".gpteng"
+    gpteng_path = project_path / ".devseek"
     os.mkdir(gpteng_path)
 
     with open(gpteng_path / "file_selection.toml", "w") as file:
