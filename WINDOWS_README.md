@@ -29,7 +29,7 @@ For **development**:
 - `git clone git@github.com:devseeker-org/devseeker.git`
 - `cd devseeker`
 - `poetry install`
-- `poetry shell` to activate the virtual environment
+- `poetry env activate` to activate the virtual environment
 
 ### Setup
 

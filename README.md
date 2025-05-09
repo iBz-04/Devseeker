@@ -2,9 +2,23 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/devseeker)](https://pypi.org/project/devseeker)
 
-**DevSeeker is a an NLP to code ai agent**
+**DevSeeker is a an NLP to code ai agent inspired by claude code and aider**
+
+**devseeker can :**
+- manage code files and folders
+- Create and edit code on command 
+- Store code in short-term memory
+- review code changes
+- run code files 
+- calculate token usage
+- offer multiple coding modes
+- support wide range of ai models
 
 
+## a little demo
+
+**rare video of me losing a little game devseeker made**
+https://github.com/user-attachments/assets/f1225741-0c97-4750-acaf-bd808608de35
 
 ## Table of Contents
 
@@ -36,7 +50,7 @@ pip install devseeker
 git clone https://github.com/iBz-04/devseeker.git
 cd devseeker
 poetry install
-poetry shell
+poetry env activate
 ```
 
 ## Configuration
