@@ -17,8 +17,9 @@
 
 ## a little demo
 
-**rare video of me losing a little game devseeker made**
 https://github.com/user-attachments/assets/f1225741-0c97-4750-acaf-bd808608de35
+
+**rare video of me losing a little game devseeker made :(**
 
 ## Table of Contents
 
