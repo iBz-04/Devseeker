@@ -1,8 +1,22 @@
-# DevSeeker
+<div align="center">
+   <h2>Devseeker</h2>
+</div>
 
-[![PyPI version](https://img.shields.io/pypi/v/devseeker)](https://pypi.org/project/devseeker)
+<p align="center">
+  <img src="https://res.cloudinary.com/diekemzs9/image/upload/v1746009112/extension_icon_1024px_jedbgf.png" alt="Seeker-o1 Logo" width="170"/>
+</p>
 
-**DevSeeker is a an NLP to code ai agent inspired by claude code and aider**
+<div align="center">
+   <p><b>DevSeeker is a coding agent inspired by claude code and aider</b></p>
+</div>
+
+
+
+
+ [![PyPI version](https://img.shields.io/pypi/v/devseeker)](https://pypi.org/project/devseeker)
+
+
+
 
 **devseeker can :**
 - manage code files and folders
