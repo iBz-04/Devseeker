@@ -49,7 +49,6 @@ from rich.prompt import Prompt as RichPrompt
 from rich.markdown import Markdown
 
 from devseeker.applications.cli.cli_agent import CliAgent
-from devseeker.applications.cli.collect import collect_and_send_human_review
 from devseeker.applications.cli.file_selector import FileSelector
 from devseeker.core.ai import AI, ClipboardAI
 from devseeker.core.default.disk_execution_env import DiskExecutionEnv
@@ -305,7 +304,7 @@ def format_installed_packages(packages):
 def main(
     project_path: str = typer.Argument(".", help="path"),
     model: str = typer.Option(
-        os.environ.get("MODEL_NAME", "gpt-4o"), "--model", "-m", help="model id string"
+        os.environ.get("MODEL_NAME", "gpt-4.1"), "--model", "-m", help="model id string"
     ),
     temperature: float = typer.Option(
         0.1,

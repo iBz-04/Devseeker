@@ -23,6 +23,49 @@ except ImportError:
     )
 
 
+# Custom function to get token costs for GPT-4.1 models
+def get_gpt41_token_cost(model_name: str, num_tokens: int, is_completion: bool = False) -> float:
+    """
+    Calculate the cost of tokens for GPT-4.1 models which are not yet in LangChain's pricing.
+    
+    Args:
+        model_name: The name of the GPT-4.1 model
+        num_tokens: The number of tokens
+        is_completion: Whether the tokens are for completion (vs. prompt)
+        
+    Returns:
+        The cost in USD
+    """
+    if "gpt-4.1" in model_name.lower():
+        # Use the pricing information from OpenAI's documentation
+        if "nano" in model_name.lower():
+            # GPT-4.1 Nano pricing
+            prompt_price_per_1k = 0.00015
+            completion_price_per_1k = 0.0006
+        elif "mini" in model_name.lower():
+            # GPT-4.1 Mini pricing
+            prompt_price_per_1k = 0.0003
+            completion_price_per_1k = 0.0015
+        else:
+            # Standard GPT-4.1 pricing
+            prompt_price_per_1k = 0.001
+            completion_price_per_1k = 0.003
+            
+        price = completion_price_per_1k if is_completion else prompt_price_per_1k
+        return round((num_tokens / 1000) * price, 6)
+    
+    # For non-GPT-4.1 models, use the langchain function
+    try:
+        return get_openai_token_cost_for_model(model_name, num_tokens, is_completion)
+    except Exception as e:
+        print(f"Error calculating cost for model {model_name}: {e}")
+        # Fallback to GPT-4 costs if unknown
+        prompt_price_per_1k = 0.01
+        completion_price_per_1k = 0.03
+        price = completion_price_per_1k if is_completion else prompt_price_per_1k
+        return round((num_tokens / 1000) * price, 6)
+
+
 Message = Union[AIMessage, HumanMessage, SystemMessage]
 
 logger = logging.getLogger(__name__)
@@ -71,11 +114,17 @@ class Tokenizer:
 
     def __init__(self, model_name):
         self.model_name = model_name
-        self._tiktoken_tokenizer = (
-            tiktoken.encoding_for_model(model_name)
-            if "gpt-4" in model_name or "gpt-3.5" in model_name
-            else tiktoken.get_encoding("cl100k_base")
-        )
+        try:
+            # Try to get the tokenizer specific to the model
+            if "gpt-4" in model_name or "gpt-3.5" in model_name:
+                self._tiktoken_tokenizer = tiktoken.encoding_for_model(model_name)
+            else:
+                self._tiktoken_tokenizer = tiktoken.get_encoding("cl100k_base")
+        except KeyError:
+            # If the model is not recognized, fall back to cl100k_base tokenizer
+            # This handles newer models like gpt-4.1 that aren't in tiktoken yet
+            print(f"Model {model_name} not recognized by tiktoken, using cl100k_base tokenizer instead")
+            self._tiktoken_tokenizer = tiktoken.get_encoding("cl100k_base")
 
     def num_tokens(self, txt: str) -> int:
         """
@@ -285,12 +334,8 @@ class TokenUsageLog:
         try:
             result = 0
             for log in self.log():
-                result += get_openai_token_cost_for_model(
-                    self.model_name, log.total_prompt_tokens, is_completion=False
-                )
-                result += get_openai_token_cost_for_model(
-                    self.model_name, log.total_completion_tokens, is_completion=True
-                )
+                result += get_gpt41_token_cost(self.model_name, log.in_step_prompt_tokens, False)
+                result += get_gpt41_token_cost(self.model_name, log.in_step_completion_tokens, True)
             return result
         except Exception as e:
             print(f"Error calculating usage cost: {e}")

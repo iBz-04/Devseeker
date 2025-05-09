@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "devseeker"
-version = "0.0.3-alpha"
+version = "0.0.4"
 description = "Coolest coding agent"
 authors = ["Ibrahim Rayamah <ibz04.dev@gmail.com>"]
 license = "MIT"

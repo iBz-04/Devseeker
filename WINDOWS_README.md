@@ -61,6 +61,7 @@ YOU CAN RUN THE CLI WITH `poetry run devseeker`
 - Fill in the `prompt` file in your new folder with your command
 - `devseeker projects/my-new-project` or `poetry run devseeker projects/my-new-project`
   - (Note, `devseeker --help` lets you see all available options. For example `--steps use_feedback` lets you improve/fix code in a project)
+- Also ` devseeker projects/my-existing-project -i` or  `devseeker projects/my-existing-project -improve`
 
   NB: If you want to create a game you might want to install pygame `pip install pygame`
 

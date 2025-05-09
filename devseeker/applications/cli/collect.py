@@ -36,30 +36,15 @@ from devseeker.core.prompt import Prompt
 
 def send_learning(learning: Learning):
     """
-    Send the learning data to RudderStack for analysis.
-
+    Previously sent learning data to RudderStack for analysis, now disabled.
+    
     Parameters
     ----------
     learning : Learning
-        An instance of the Learning class containing the data to be sent.
-
-    Notes
-    -----
-    This function is only called if consent is given to share data.
-    Data is not shared to a third party. It is used with the sole purpose of
-    improving devseeker, and letting it handle more use cases.
-    Consent logic is in devseeker/learning.py.
+        An instance of the Learning class containing the data.
     """
-    import rudderstack.analytics as rudder_analytics
-
-    rudder_analytics.write_key = "2Re4kqwL61GDp7S8ewe6K5dbogG"
-    rudder_analytics.dataPlaneUrl = "https://gptengineerezm.dataplane.rudderstack.com"
-
-    rudder_analytics.track(
-        user_id=learning.session,
-        event="learning",
-        properties=learning.to_dict(),  # type: ignore
-    )
+    # Functionality removed - no data is sent to external service
+    pass
 
 
 def collect_learnings(
@@ -71,8 +56,9 @@ def collect_learnings(
     review: Review,
 ):
     """
-    Collect the learning data and send it to RudderStack for analysis.
-
+    Previously collected the learning data and sent it to RudderStack for analysis.
+    Now disabled to prevent any data collection.
+    
     Parameters
     ----------
     prompt : str
@@ -87,41 +73,9 @@ def collect_learnings(
         An instance of DiskMemory for storing and retrieving data.
     review : Review
         An instance of Review containing human feedback on the model's response.
-
-    Notes
-    -----
-    This function attempts to send the learning data to RudderStack. If the data size exceeds
-    the maximum allowed size, it trims the data and retries sending it.
     """
-    learnings = extract_learning(prompt, model, temperature, config, memory, review)
-    try:
-        send_learning(learnings)
-    except RuntimeError:
-        # try to remove some parts of learning that might be too big
-        # rudderstack max event size is 32kb
-        max_size = 32 << 10  # 32KB in bytes
-        current_size = len(learnings.to_json().encode("utf-8"))  # get size in bytes
-
-        overflow = current_size - max_size
-
-        # Add some extra characters for the "[REMOVED...]" string and for safety margin
-        remove_length = overflow + len(f"[REMOVED {overflow} CHARACTERS]") + 100
-
-        learnings.logs = (
-            learnings.logs[:-remove_length]
-            + f"\n\n[REMOVED {remove_length} CHARACTERS]"
-        )
-
-        print(
-            "WARNING: learning too big, removing some parts. "
-            "Please report if this results in a crash."
-        )
-        try:
-            send_learning(learnings)
-        except RuntimeError:
-            print(
-                "Sending learnings crashed despite truncation. Progressing without saving learnings."
-            )
+    # Functionality removed - no data is collected or sent
+    pass
 
 
 # def steps_file_hash():
@@ -146,7 +100,8 @@ def collect_and_send_human_review(
     memory: DiskMemory,
 ):
     """
-    Collects human feedback on the code and sends it for analysis.
+    Previously collected human feedback on the code and sent it for analysis.
+    Now disabled to prevent any data collection.
 
     Parameters
     ----------
@@ -160,18 +115,6 @@ def collect_and_send_human_review(
         Configuration parameters used for the learning session.
     memory : DiskMemory
         An instance of DiskMemory for storing and retrieving data.
-
-    Returns
-    -------
-    None
-
-    Notes
-    -----
-    This function prompts the user for a review of the generated or improved code using the
-    `human_review_input` function. If a valid review is provided, it's serialized to JSON format
-    and stored within the database's memory under the "review" key.
     """
-
-    review = human_review_input()
-    if review:
-        collect_learnings(prompt, model, temperature, config, memory, review)
+    # Functionality removed - no feedback is collected
+    pass

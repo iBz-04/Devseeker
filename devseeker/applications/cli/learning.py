@@ -123,55 +123,14 @@ TERM_CHOICES = (
 
 def human_review_input() -> Optional[Review]:
     """
-    Interactively prompts the user to review the generated code and returns their feedback encapsulated in a Review object.
-
-    This function will first check if the user has given consent to collect their feedback. If consent is given, it will ask the user a series of questions about the generated code's performance and capture their responses.
-
+    Previously collected feedback from users. Now modified to return None, effectively disabling feedback collection.
+    
     Returns
     -------
     Optional[Review]
-        A Review object containing the user's feedback, or None if consent is not given.
+        Always returns None to disable the feedback collection feature.
     """
-    print()
-    if not check_collection_consent():
-        return None
-    print()
-    print(colored("To help devseeker learn, please answer 3 questions:", "light_green"))
-    print()
-
-    ran = input("Did the generated code run at all? " + TERM_CHOICES)
-    ran = ask_for_valid_input(ran)
-
-    if ran == "y":
-        perfect = input(
-            "Did the generated code do everything you wanted? " + TERM_CHOICES
-        )
-        perfect = ask_for_valid_input(perfect)
-
-        if perfect != "y":
-            useful = input("Did the generated code do anything useful? " + TERM_CHOICES)
-            useful = ask_for_valid_input(useful)
-        else:
-            useful = ""
-    else:
-        perfect = ""
-        useful = ""
-
-    if perfect != "y":
-        comments = input(
-            "If you have time, please explain what was not working "
-            + colored("(ok to leave blank)\n", "light_green")
-        )
-    else:
-        comments = ""
-
-    return Review(
-        raw=", ".join([ran, perfect, useful]),
-        ran={"y": True, "n": False, "u": None, "": None}[ran],
-        works={"y": True, "n": False, "u": None, "": None}[useful],
-        perfect={"y": True, "n": False, "u": None, "": None}[perfect],
-        comments=comments,
-    )
+    return None
 
 
 def ask_for_valid_input(ran):
@@ -182,54 +141,28 @@ def ask_for_valid_input(ran):
 
 def check_collection_consent() -> bool:
     """
-    Checks if the user has previously given consent to store their data for feedback collection.
-
-    This function looks for a file named .devseeker_consent that stores the user's consent status. If the file exists and contains 'true', consent is assumed. Otherwise it prompts the user.
-
+    Previously checked if the user had given consent to collect data. 
+    Now always returns False to prevent any collection prompt.
+    
     Returns
     -------
     bool
-        True if the user has given consent, False otherwise.
+        Always returns False to disable feedback collection.
     """
-    path = Path(".devseeker_consent")
-    if path.exists() and path.read_text() == "true":
-        return True
-    else:
-        return ask_collection_consent()
+    return False
 
 
 def ask_collection_consent() -> bool:
     """
-    Asks the user for their consent to store their data for the purpose of improving the devseeker tool.
-
-    The user's response is recorded in a file for future reference. If the user consents, the function will write 'true' to the file. If the user does not consent, no data will be collected, and the function will not modify the file.
-
+    Previously asked the user for consent to collect data.
+    Now always returns False to prevent data collection.
+    
     Returns
     -------
     bool
-        True if the user consents, False otherwise.
+        Always returns False to disable feedback collection.
     """
-    answer = input("Is it ok if we store your prompts to help improve devseeker? (y/n)")
-    while answer.lower() not in ("y", "n"):
-        answer = input("Invalid input. Please enter y or n: ")
-
-    if answer.lower() == "y":
-        path = Path(".devseeker_consent")
-        path.write_text("true")
-        print(colored("Thank you️", "light_green"))
-        print()
-        print(
-            "(If you no longer wish to participate in data collection, delete the file .devseeker_consent)"
-        )
-        return True
-    else:
-        print(
-            colored(
-                "No worries! devseeker will not collect your prompts. ❤️",
-                "light_green",
-            )
-        )
-        return False
+    return False
 
 
 def extract_learning(
