@@ -42,6 +42,11 @@ from dotenv import load_dotenv
 from langchain.globals import set_llm_cache
 from langchain_community.cache import SQLiteCache
 from termcolor import colored
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+from rich.prompt import Prompt as RichPrompt
+from rich.markdown import Markdown
 
 from devseeker.applications.cli.cli_agent import CliAgent
 from devseeker.applications.cli.collect import collect_and_send_human_review
@@ -66,6 +71,7 @@ from devseeker.tools.custom_steps import clarified_gen, lite_gen, self_heal
 app = typer.Typer(
     context_settings={"help_option_names": ["-h", "--help"]}
 )  # creates a CLI app
+console = Console()
 
 
 def load_env_if_needed():
@@ -131,15 +137,33 @@ def load_prompt(
         )
     prompt_str = input_repo.get(prompt_file)
     if prompt_str:
-        print(colored("Using prompt from file:", "green"), prompt_file)
-        print(prompt_str)
+        console.print(Panel(
+            f"[bold]Using prompt from file:[/bold] {prompt_file}\n\n{prompt_str}",
+            title="[bold green]Loaded Prompt[/bold green]",
+            border_style="green",
+            expand=False,
+        ))
     else:
+        console.print("\n")
         if not improve_mode:
-            prompt_str = input(
-                "\nWhat application do you want devseeker to generate?\n"
-            )
+            console.print(Panel(
+                "[bold]What type of application would you like to create?[/bold]\n\n"
+                "Provide a detailed description of the application you want to build.\n"
+                "The more specific you are, the better the results will be.",
+                title="[bold blue]Application Generator[/bold blue]",
+                border_style="blue",
+                expand=False,
+            ))
+            prompt_str = RichPrompt.ask("[bold cyan]What application do you want devseeker to generate?[/bold cyan]")
         else:
-            prompt_str = input("\nHow do you want to improve the application?\n")
+            console.print(Panel(
+                "[bold]How would you like to improve your application?[/bold]\n\n"
+                "Describe the changes, features, or fixes you want to implement.",
+                title="[bold blue]Application Improvement[/bold blue]",
+                border_style="blue",
+                expand=False,
+            ))
+            prompt_str = RichPrompt.ask("[bold cyan]How do you want to improve the application?[/bold cyan]")
 
     if entrypoint_prompt_file == "":
         entrypoint_prompt = ""
@@ -230,14 +254,14 @@ def compare(f1: FilesDict, f2: FilesDict):
 
 
 def prompt_yesno() -> bool:
-    TERM_CHOICES = colored("y", "green") + "/" + colored("n", "red") + " "
+    prompt = "[bold]Continue?[/bold] ([green]y[/green]/[red]n[/red])"
     while True:
-        response = input(TERM_CHOICES).strip().lower()
+        response = RichPrompt.ask(prompt).strip().lower()
         if response in ["y", "yes"]:
             return True
         if response in ["n", "no"]:
             break
-        print("Please respond with 'y' or 'n'")
+        console.print("[yellow]Please respond with 'y' or 'n'[/yellow]")
 
 
 def get_system_info():
@@ -465,7 +489,16 @@ def main(
         )
 
     path = Path(project_path)
-    print("Running devseeker in", path.absolute(), "\n")
+    console.print(Panel(
+        "[bold blue]DevSeeker[/bold blue] - AI-Powered Code Generation\n\n"
+        "[bold]Specify what you want to build in plain language[/bold]\n"
+        "Watch as AI writes and executes the code for you",
+        title="[bold green]Welcome to DevSeeker[/bold green]",
+        border_style="green",
+        expand=False,
+    ))
+    
+    console.print(f"\nRunning devseeker in [bold blue]{os.path.abspath(project_path)}[/bold blue]\n")
 
     prompt = load_prompt(
         DiskMemory(path),
@@ -500,7 +533,7 @@ def main(
     memory = DiskMemory(memory_path(project_path))
     memory.archive_logs()
 
-    execution_env = DiskExecutionEnv()
+    execution_env = DiskExecutionEnv(path)
     agent = CliAgent.with_default_config(
         memory,
         execution_env,
@@ -541,9 +574,11 @@ def main(
 
         else:
             files_dict = agent.init(prompt)
-            # collect user feedback if user consents
-            config = (code_gen_fn.__name__, execution_fn.__name__)
-            collect_and_send_human_review(prompt, model, temperature, config, memory)
+            console.print(Panel(
+                "\n".join(sorted(files_dict.keys())),
+                title="[bold green]Generated Files[/bold green]",
+                border_style="green"
+            ))
 
         stage_uncommitted_to_git(path, files_dict, improve_mode)
 

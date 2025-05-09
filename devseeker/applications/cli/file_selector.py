@@ -22,9 +22,13 @@ import os
 import subprocess
 
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Union
+from typing import Any, Dict, Generator, List, Union, Optional
 
 import toml
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+from rich.tree import Tree
 
 from devseeker.core.default.disk_memory import DiskMemory
 from devseeker.core.default.paths import metadata_path
@@ -75,6 +79,7 @@ class FileSelector:
         self.project_path = project_path
         self.metadata_db = DiskMemory(metadata_path(self.project_path))
         self.toml_path = self.metadata_db.path / self.FILE_LIST_NAME
+        self.console = Console()
 
     def ask_for_files(self, skip_file_selection=False) -> tuple[FilesDict, bool]:
         """
@@ -97,26 +102,31 @@ class FileSelector:
         else:
             # Otherwise, use the editor file selector for interactive selection
             if self.FILE_LIST_NAME in self.metadata_db:
-                print(
-                    f"File list detected at {self.toml_path}. Edit or delete it if you want to select new files."
+                self.console.print(
+                    Panel(
+                        f"File list detected at {self.toml_path}. Edit or delete it if you want to select new files.",
+                        title="[bold blue]File List Found[/bold blue]",
+                        border_style="blue",
+                    )
                 )
                 selected_files = self.editor_file_selector(self.project_path, False)
             else:
                 selected_files = self.editor_file_selector(self.project_path, True)
 
         content_dict = {}
-        for file_path in selected_files:
-            # selected files contains paths that are relative to the project path
-            try:
-                # to open the file we need the path from the cwd
-                with open(
-                    Path(self.project_path) / file_path, "r", encoding="utf-8"
-                ) as content:
-                    content_dict[str(file_path)] = content.read()
-            except FileNotFoundError:
-                print(f"Warning: File not found {file_path}")
-            except UnicodeDecodeError:
-                print(f"Warning: File not UTF-8 encoded {file_path}, skipping")
+        with self.console.status("[bold green]Loading selected files...[/bold green]"):
+            for file_path in selected_files:
+                # selected files contains paths that are relative to the project path
+                try:
+                    # to open the file we need the path from the cwd
+                    with open(
+                        Path(self.project_path) / file_path, "r", encoding="utf-8"
+                    ) as content:
+                        content_dict[str(file_path)] = content.read()
+                except FileNotFoundError:
+                    self.console.print(f"[bold red]Warning:[/bold red] File not found {file_path}")
+                except UnicodeDecodeError:
+                    self.console.print(f"[bold red]Warning:[/bold red] File not UTF-8 encoded {file_path}, skipping")
 
         return FilesDict(content_dict), self.is_linting
 
@@ -146,61 +156,67 @@ class FileSelector:
 
         # Initialize .toml file with file tree if in initial state
         if init:
-            tree_dict = {x: "selected" for x in self.get_current_files(root_path)}
+            with self.console.status("[bold green]Scanning files...[/bold green]"):
+                tree_dict = {x: "selected" for x in self.get_current_files(root_path)}
 
-            s = toml.dumps({"files": tree_dict})
+                s = toml.dumps({"files": tree_dict})
 
-            # add comments on all lines that match = "selected"
-            s = "\n".join(
-                [
-                    "# " + line if line.endswith(' = "selected"') else line
-                    for line in s.split("\n")
-                ]
-            )
-            # Write to the toml file
-            with open(toml_file, "w") as f:
-                f.write(self.COMMENT)
-                f.write(self.LINTING_STRING)
-                f.write(s)
+                # add comments on all lines that match = "selected"
+                s = "\n".join(
+                    [
+                        "# " + line if line.endswith(' = "selected"') else line
+                        for line in s.split("\n")
+                    ]
+                )
+                # Write to the toml file
+                with open(toml_file, "w") as f:
+                    f.write(self.COMMENT)
+                    f.write(self.LINTING_STRING)
+                    f.write(s)
 
         else:
             # Load existing files from the .toml configuration
-            all_files = self.get_current_files(root_path)
-            s = toml.dumps({"files": {x: "selected" for x in all_files}})
+            with self.console.status("[bold green]Updating file list...[/bold green]"):
+                all_files = self.get_current_files(root_path)
+                s = toml.dumps({"files": {x: "selected" for x in all_files}})
 
-            # get linting status from the toml file
-            with open(toml_file, "r") as file:
-                linting_status = toml.load(file)
-            if (
-                "linting" in linting_status
-                and linting_status["linting"].get("linting", "").lower() == "off"
-            ):
-                self.is_linting = False
-                self.LINTING_STRING = '[linting]\n"linting" = "off"\n\n'
-                print("\nLinting is disabled")
+                # get linting status from the toml file
+                with open(toml_file, "r") as file:
+                    linting_status = toml.load(file)
+                if (
+                    "linting" in linting_status
+                    and linting_status["linting"].get("linting", "").lower() == "off"
+                ):
+                    self.is_linting = False
+                    self.LINTING_STRING = '[linting]\n"linting" = "off"\n\n'
+                    self.console.print("[bold yellow]Linting is disabled[/bold yellow]")
 
-            with open(toml_file, "r") as file:
-                selected_files = toml.load(file)
+                with open(toml_file, "r") as file:
+                    selected_files = toml.load(file)
 
-            lines = s.split("\n")
-            s = "\n".join(
-                lines[:1]
-                + [
-                    line
-                    if line.split(" = ")[0].strip('"') in selected_files["files"]
-                    else "# " + line
-                    for line in lines[1:]
-                ]
+                lines = s.split("\n")
+                s = "\n".join(
+                    lines[:1]
+                    + [
+                        line
+                        if line.split(" = ")[0].strip('"') in selected_files["files"]
+                        else "# " + line
+                        for line in lines[1:]
+                    ]
+                )
+
+                # Write the merged list back to the .toml for user review and modification
+                with open(toml_file, "w") as file:
+                    file.write(self.COMMENT)  # Ensure to write the comment
+                    file.write(self.LINTING_STRING)
+                    file.write(s)
+
+        self.console.print(
+            Panel(
+                "Please select and deselect (add # in front) files, save it, and close it to continue...",
+                title="[bold green]File Selection[/bold green]",
+                border_style="green",
             )
-
-            # Write the merged list back to the .toml for user review and modification
-            with open(toml_file, "w") as file:
-                file.write(self.COMMENT)  # Ensure to write the comment
-                file.write(self.LINTING_STRING)
-                file.write(s)
-
-        print(
-            "Please select and deselect (add # in front) files, save it, and close it to continue..."
         )
         self.open_with_default_editor(
             toml_file
@@ -230,21 +246,22 @@ class FileSelector:
         ]  # Putting the beginner-friendly text editor forward
         chosen_editor = os.environ.get("EDITOR")
 
-        # Try the preferred editor first, then fallback to common editors
-        if chosen_editor:
-            try:
-                subprocess.run([chosen_editor, file_path])
-                return
-            except Exception:
-                pass
+        with self.console.status("[bold cyan]Opening editor...[/bold cyan]"):
+            # Try the preferred editor first, then fallback to common editors
+            if chosen_editor:
+                try:
+                    subprocess.run([chosen_editor, file_path])
+                    return
+                except Exception:
+                    pass
 
-        for editor in editors:
-            try:
-                subprocess.run([editor, file_path])
-                return
-            except Exception:
-                continue
-        print("No suitable text editor found. Please edit the file manually.")
+            for editor in editors:
+                try:
+                    subprocess.run([editor, file_path])
+                    return
+                except Exception:
+                    continue
+            self.console.print("[bold red]No suitable text editor found. Please edit the file manually.[/bold red]")
 
     def is_utf8(self, file_path: Union[str, Path]) -> bool:
         """
@@ -300,7 +317,7 @@ class FileSelector:
             and edited_tree["linting"].get("linting", "").lower() == "off"
         ):
             self.is_linting = False
-            print("\nLinting is disabled")
+            self.console.print("[bold yellow]Linting is disabled[/bold yellow]")
         else:
             self.is_linting = True
 
@@ -314,7 +331,13 @@ class FileSelector:
                 "No files were selected. Please select at least one file to proceed."
             )
 
-        print(f"\nYou have selected the following files:\n{input_path}")
+        self.console.print(
+            Panel(
+                f"Selected files from: {input_path}",
+                title="[bold green]Selected Files[/bold green]",
+                border_style="green",
+            )
+        )
 
         project_path = Path(input_path).resolve()
         selected_paths = set(
@@ -329,17 +352,75 @@ class FileSelector:
                     p = p.parent
 
         try:
-            for displayable_path in DisplayablePath.make_tree(project_path):
-                if displayable_path.path in selected_paths:
-                    print(displayable_path.displayable())
-
+            # Create a rich tree display for selected files
+            self.display_file_tree(project_path, selected_paths)
         except FileNotFoundError:
-            print("Specified path does not exist: ", project_path)
+            self.console.print(f"[bold red]Specified path does not exist:[/bold red] {project_path}")
         except Exception as e:
-            print("An error occurred while trying to display the file tree:", e)
+            self.console.print(f"[bold red]An error occurred while trying to display the file tree:[/bold red] {e}")
 
-        print("\n")
         return selected_files
+
+    def display_file_tree(self, project_path: Path, selected_paths: set):
+        """
+        Display a rich tree of selected files.
+        
+        Parameters
+        ----------
+        project_path : Path
+            The root project path
+        selected_paths : set
+            Set of selected file paths
+        """
+        tree = Tree(
+            f"[bold blue]{project_path}[/bold blue]",
+            guide_style="bright_blue",
+        )
+        
+        # Get all directories containing selected files
+        dir_map = {}
+        
+        # First pass: create directory structure
+        for path in sorted(selected_paths, key=lambda p: str(p)):
+            if path.is_dir():
+                continue
+                
+            rel_path = path.relative_to(project_path)
+            current_tree = tree
+            
+            # Create directory nodes
+            for i, part in enumerate(rel_path.parts[:-1]):
+                partial_path = project_path.joinpath(*rel_path.parts[:i+1])
+                if partial_path not in dir_map:
+                    parent_tree = current_tree
+                    current_tree = parent_tree.add(
+                        f"[bold cyan]{part}/[/bold cyan]",
+                        guide_style="cyan"
+                    )
+                    dir_map[partial_path] = current_tree
+                else:
+                    current_tree = dir_map[partial_path]
+            
+            # Add file node with appropriate styling
+            if not path.is_dir():
+                extension = path.suffix.lower()
+                if extension in ('.py', '.pyw'):
+                    style = "green"
+                elif extension in ('.js', '.ts', '.jsx', '.tsx'):
+                    style = "yellow"
+                elif extension in ('.html', '.htm', '.css'):
+                    style = "magenta"
+                elif extension in ('.json', '.yml', '.yaml', '.toml'):
+                    style = "blue"
+                elif extension in ('.md', '.txt', '.rst'):
+                    style = "white"
+                else:
+                    style = "bright_white"
+                
+                current_tree.add(f"[{style}]{rel_path.name}[/{style}]")
+        
+        # Display the tree
+        self.console.print(tree)
 
     def merge_file_lists(
         self, existing_files: Dict[str, Any], new_files: Dict[str, Any]
@@ -430,7 +511,7 @@ class DisplayablePath(object):
     display_parent_prefix_last = "│   "
 
     def __init__(
-        self, path: Union[str, Path], parent_path: "DisplayablePath", is_last: bool
+        self, path: Union[str, Path], parent_path: Optional["DisplayablePath"], is_last: bool
     ):
         """
         Initializes a DisplayablePath object with a given path and parent.

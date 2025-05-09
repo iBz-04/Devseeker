@@ -53,6 +53,8 @@ Now you can use `%OPENAI_API_KEY%` when prompted to input your key.
 
 ### Run
 
+YOU CAN RUN THE CLI WITH `poetry run devseeker`
+
 - Create an empty folder. If inside the repo, you can:
   - Run `xcopy /E projects\example projects\my-new-project` in the command line or `Copy-Item -Path "projects\example" -Destination "projects\my-new-project" -Recurse`
   - Or hold CTRL and drag the folder down to create a copy, then rename to fit your project

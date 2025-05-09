@@ -35,6 +35,7 @@ import io
 import re
 import sys
 import traceback
+import shutil
 
 from pathlib import Path
 from typing import List, MutableMapping, Union
@@ -264,7 +265,14 @@ def execute_entrypoint(
     print("You can press ctrl+c *once* to stop the execution.")
     print()
 
-    execution_env.upload(files_dict).run(f"bash {ENTRYPOINT_FILE}")
+    shell = shutil.which("bash") or shutil.which("sh")
+    if not shell:
+        print("Could not find bash or sh to execute the run script. Please install Git Bash or WSL, or run it manually: run.sh")
+        return files_dict
+    
+    # Quote the shell path if it contains spaces to handle paths like "C:\\Program Files\\..."
+    shell_command = f'"{shell}" {ENTRYPOINT_FILE}' if " " in shell else f'{shell} {ENTRYPOINT_FILE}'
+    execution_env.upload(files_dict).run(shell_command)
     return files_dict
 
 
