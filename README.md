@@ -7,7 +7,7 @@
 </p>
 
 <div align="center">
-   <p><b>DevSeeker is a coding agent inspired by claude code and aider</b></p>
+   <p><b>DevSeeker is a coding agent inspired by claude code and codex</b></p>
 </div>
 
 
@@ -31,7 +31,7 @@
 
 ## a little demo
 
-https://github.com/user-attachments/assets/f1225741-0c97-4750-acaf-bd808608de35
+https://github.com/user-attachments/assets/9b095f14-f376-429f-85e3-4fe42522cec4
 
 **rare video of me losing a little game devseeker made :(**
 
