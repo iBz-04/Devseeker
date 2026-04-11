@@ -53,13 +53,18 @@ scratchpad
 .python-version
 
 .devseeker_consent
+.devseeker
 
-# projects folder apart from default prompt
+# projects folder - ignore all user projects (including new-api, etc.)
+# only example projects are committed
 
 projects/*
 !projects/example/prompt
 !projects/example-improve
 !projects/example-vision
+
+# devseeker/projects - ignore all user projects (including new-app, etc.)
+devseeker/projects/
 
 # docs
 
@@ -74,6 +79,7 @@ docs/tools
 # coding assistants
 .aider*
 .devseeker
+.devseeker/
 
 # webapp specific
 webapp/node_modules

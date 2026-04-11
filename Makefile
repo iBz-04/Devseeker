@@ -23,7 +23,7 @@ help:
 	@echo "Please use 'make <target>' where <target> is one of the following:"
 	@echo "  help           	Return this message with usage instructions."
 	@echo "  install        	Will install the dependencies using Poetry."
-	@echo "  run <folder_name>  Runs GPT Engineer on the folder with the given name."
+	@echo "  run <folder_name>  Runs Devseeker on the folder with the given name."
 
 #Defines a target named install. This target will install the project using Poetry.
 install: poetry-install install-pre-commit farewell
@@ -42,7 +42,7 @@ install-pre-commit:
 farewell:
 	@echo -e "$(COLOR_GREEN)All done!$(COLOR_RESET)"
 
-#Defines a target named run. This target will run GPT Engineer on the folder with the given name.
+#Defines a target named run. This target will run Devseeker on the folder with the given name.
 run:
 	@echo -e "$(COLOR_CYAN)Running devseeker on $(COLOR_GREEN)$(name)$(COLOR_CYAN) folder...$(COLOR_RESET)" && \
 	poetry run devseeker projects/$(name)

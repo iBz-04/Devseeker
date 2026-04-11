@@ -65,7 +65,7 @@ pip install devseeker
 git clone https://github.com/iBz-04/devseeker.git
 cd devseeker
 poetry install
-poetry env activate
+source "$(poetry env list --full-path | head -n 1)/bin/activate"
 ```
 
 ## Configuration

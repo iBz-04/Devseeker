@@ -4,16 +4,16 @@
 API Reference
 =============
 
-:mod:`gpt_engineer.applications`: Applications
+:mod:`devseeker.applications`: Applications
 ===============================================
 
-.. automodule:: gpt_engineer.applications
+.. automodule:: devseeker.applications
     :no-members:
     :no-inherited-members:
 
 Classes
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: applications
@@ -24,7 +24,7 @@ Classes
 
 Functions
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: applications
@@ -43,16 +43,16 @@ Functions
     applications.cli.main.load_prompt
     applications.cli.main.main
 
-:mod:`gpt_engineer.benchmark`: Benchmark
+:mod:`devseeker.benchmark`: Benchmark
 =========================================
 
-.. automodule:: gpt_engineer.benchmark
+.. automodule:: devseeker.benchmark
     :no-members:
     :no-inherited-members:
 
 Functions
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: benchmark
@@ -73,16 +73,16 @@ Functions
     benchmark.run.print_results
     benchmark.run.run
 
-:mod:`gpt_engineer.core`: Core
+:mod:`devseeker.core`: Core
 ===============================
 
-.. automodule:: gpt_engineer.core
+.. automodule:: devseeker.core
     :no-members:
     :no-inherited-members:
 
 Classes
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: core
@@ -98,7 +98,7 @@ Classes
 
 Functions
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: core
@@ -124,16 +124,16 @@ Functions
     core.diff.is_similar
     core.files_dict.file_to_lines_dict
 
-:mod:`gpt_engineer.tools`: Tools
+:mod:`devseeker.tools`: Tools
 =================================
 
-.. automodule:: gpt_engineer.tools
+.. automodule:: devseeker.tools
     :no-members:
     :no-inherited-members:
 
 Functions
 --------------
-.. currentmodule:: gpt_engineer
+.. currentmodule:: devseeker
 
 .. autosummary::
     :toctree: tools
