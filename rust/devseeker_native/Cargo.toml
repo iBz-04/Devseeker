@@ -1,0 +1,12 @@
+[package]
+name = "devseeker_native"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "devseeker_native"
+crate-type = ["cdylib"]
+
+[dependencies]
+ignore = "0.4"
+pyo3 = { version = "0.22", features = ["extension-module"] }

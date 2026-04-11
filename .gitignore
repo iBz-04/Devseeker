@@ -15,6 +15,9 @@ build/
 # Virtual environments
 .env
 .env.sh
+.envrc
+.venv/
+.direnv/
 venv/
 ENV/
 venv_test_installation/
@@ -48,6 +51,7 @@ archive
 *log.txt
 todo
 scratchpad
+highscore.txt
 
 # Pyenv
 .python-version
@@ -78,8 +82,9 @@ docs/tools
 
 # coding assistants
 .aider*
-.devseeker
+.devseek/
 .devseeker/
+.devseeker
 
 # webapp specific
 webapp/node_modules
@@ -102,4 +107,3 @@ devseeker/benchmark/benchmarks/mbpp/dataset
 devseeker/benchmark/minimal_bench_config.toml
 
 test.json
-

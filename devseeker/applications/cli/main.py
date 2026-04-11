@@ -56,7 +56,6 @@ from devseeker.core.default.disk_memory import DiskMemory
 from devseeker.core.default.file_store import FileStore
 from devseeker.core.default.paths import PREPROMPTS_PATH, memory_path
 from devseeker.core.default.steps import (
-    execute_entrypoint,
     gen_code,
     handle_improve_mode,
     improve_fn as improve_fn,
@@ -65,7 +64,12 @@ from devseeker.core.files_dict import FilesDict
 from devseeker.core.git import stage_uncommitted_to_git
 from devseeker.core.preprompts_holder import PrepromptsHolder
 from devseeker.core.prompt import Prompt
-from devseeker.tools.custom_steps import clarified_gen, lite_gen, self_heal
+from devseeker.runtime.loop import AgentLoop
+from devseeker.runtime.modes import AgentMode
+from devseeker.runtime.permissions import ExecutionPolicy, ToolExecutor
+from devseeker.runtime.repo_map import RepoMapBuilder
+from devseeker.runtime.sessions import SessionStore
+from devseeker.tools.custom_steps import clarified_gen, lite_gen
 
 app = typer.Typer(
     context_settings={"help_option_names": ["-h", "--help"]}
@@ -263,6 +267,18 @@ def prompt_yesno() -> bool:
         console.print("[yellow]Please respond with 'y' or 'n'[/yellow]")
 
 
+def prompt_permission(action: str) -> bool:
+    console.print(
+        Panel(
+            action,
+            title="[bold yellow]Permission Required[/bold yellow]",
+            border_style="yellow",
+            expand=False,
+        )
+    )
+    return prompt_yesno()
+
+
 def get_system_info():
     system_info = {
         "os": platform.system(),
@@ -289,6 +305,10 @@ def get_installed_packages():
 
 def format_installed_packages(packages):
     return "\n".join([f"{name}: {version}" for name, version in packages.items()])
+
+
+def no_op_process_code(_, __, files_dict: FilesDict, **___) -> FilesDict:
+    return files_dict
 
 
 @app.command(
@@ -401,6 +421,26 @@ def main(
         "--diff_timeout",
         help="Diff regexp timeout. Default: 3. Increase if regexp search timeouts.",
     ),
+    agent_mode: str = typer.Option(
+        "auto",
+        "--agent-mode",
+        help="Agent mode: auto, ask, plan, edit, fix, or review.",
+    ),
+    session_id: str = typer.Option(
+        "",
+        "--session-id",
+        help="Resume a specific SQLite-backed session.",
+    ),
+    resume_last: bool = typer.Option(
+        False,
+        "--resume-last",
+        help="Resume the most recent session for this project.",
+    ),
+    use_file_selector: bool = typer.Option(
+        False,
+        "--use-file-selector",
+        help="Use the legacy interactive file selector instead of repo-map based context selection.",
+    ),
 ):
     """
     The main entry point for the CLI tool that generates or improves a project.
@@ -467,6 +507,15 @@ def main(
         typer.echo("Error: Clarify and lite mode are not compatible with improve mode.")
         raise typer.Exit(code=1)
 
+    try:
+        resolved_agent_mode = AgentMode.parse(agent_mode)
+    except ValueError as exc:
+        typer.echo(f"Error: {exc}")
+        raise typer.Exit(code=1)
+
+    if self_heal_mode and resolved_agent_mode == AgentMode.AUTO:
+        resolved_agent_mode = AgentMode.FIX
+
     # Set up logging
     logging.basicConfig(level=logging.DEBUG if verbose else logging.INFO)
     if use_cache:
@@ -519,12 +568,6 @@ def main(
     else:
         code_gen_fn = gen_code
 
-    # configure execution function
-    if self_heal_mode:
-        execution_fn = self_heal
-    else:
-        execution_fn = execute_entrypoint
-
     preprompts_holder = PrepromptsHolder(
         get_preprompts_path(use_custom_preprompts, Path(project_path))
     )
@@ -539,18 +582,48 @@ def main(
         ai=ai,
         code_gen_fn=code_gen_fn,
         improve_fn=improve_fn,
-        process_code_fn=execution_fn,
+        process_code_fn=no_op_process_code,
         preprompts_holder=preprompts_holder,
+    )
+
+    session_store = SessionStore(path / ".devseek" / "sessions.db")
+    session = session_store.resolve_session(
+        path.resolve(),
+        model,
+        resolved_agent_mode.value,
+        session_id=session_id,
+        resume_last=resume_last,
+    )
+    policy = ExecutionPolicy.for_mode(
+        resolved_agent_mode,
+        interactive=not bool(os.getenv("GPTE_TEST_MODE")),
+    )
+    tool_executor = ToolExecutor(
+        policy,
+        prompt_fn=prompt_permission,
+        event_logger=lambda name, risk, allowed, details: session_store.record_tool_event(
+            session.session_id,
+            name,
+            risk.value,
+            allowed,
+            details,
+        ),
+    )
+    agent_loop = AgentLoop(
+        agent=agent,
+        repo_map_builder=RepoMapBuilder(path),
+        session_store=session_store,
+        tool_executor=tool_executor,
+        console=console,
     )
 
     files = FileStore(project_path)
     if not no_execution:
-        if improve_mode:
+        if improve_mode and use_file_selector:
             files_dict_before, is_linting = FileSelector(project_path).ask_for_files(
                 skip_file_selection=skip_file_selection
             )
 
-            # lint the code
             if is_linting:
                 files_dict_before = files.linting(files_dict_before)
 
@@ -561,27 +634,68 @@ def main(
                 print(
                     f"No changes applied. Could you please upload the debug_log_file.txt in {memory.path}/logs folder in a github issue?"
                 )
-
             else:
                 print("\nChanges to be made:")
                 compare(files_dict_before, files_dict)
-
-                print()
-                print(colored("Do you want to apply these changes?", "light_green"))
-                if not prompt_yesno():
-                    files_dict = files_dict_before
-
+                stage_uncommitted_to_git(path, files_dict, improve_mode)
+                files.push(files_dict)
         else:
-            files_dict = agent.init(prompt)
-            console.print(Panel(
-                "\n".join(sorted(files_dict.keys())),
-                title="[bold green]Generated Files[/bold green]",
-                border_style="green"
-            ))
+            try:
+                loop_result = agent_loop.run(
+                    session=session,
+                    prompt=prompt,
+                    project_path=path,
+                    mode=resolved_agent_mode,
+                    improve_mode=improve_mode,
+                    diff_timeout=diff_timeout,
+                    execution_env=execution_env,
+                )
+            except PermissionError as exc:
+                console.print(
+                    Panel(
+                        str(exc),
+                        title="[bold red]Action Blocked[/bold red]",
+                        border_style="red",
+                        expand=False,
+                    )
+                )
+                raise typer.Exit(code=1)
+            console.print(
+                Panel(
+                    loop_result.message or "(no output)",
+                    title=f"[bold green]Session {loop_result.session_id}[/bold green]",
+                    border_style="green",
+                    expand=False,
+                )
+            )
 
-        stage_uncommitted_to_git(path, files_dict, improve_mode)
+            files_dict = loop_result.files_after
+            if files_dict:
+                if improve_mode and loop_result.files_before is not None:
+                    if loop_result.files_before == files_dict:
+                        print(
+                            f"No changes applied. Could you please upload the debug_log_file.txt in {memory.path}/logs folder in a github issue?"
+                        )
+                    else:
+                        print("\nChanges to be made:")
+                        compare(loop_result.files_before, files_dict)
+                else:
+                    console.print(
+                        Panel(
+                            "\n".join(sorted(files_dict.keys())),
+                            title="[bold green]Generated Files[/bold green]",
+                            border_style="green",
+                        )
+                    )
 
-        files.push(files_dict)
+                stage_uncommitted_to_git(path, files_dict, improve_mode)
+                files.push(files_dict)
+
+            session_store.update_state(
+                session.session_id,
+                token_cost=ai.token_usage_log.usage_cost(),
+                total_tokens=ai.token_usage_log.total_tokens(),
+            )
 
     if ai.token_usage_log.is_openai_model():
         print("Total api cost: $ ", ai.token_usage_log.usage_cost())

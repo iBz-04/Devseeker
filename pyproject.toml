@@ -49,6 +49,7 @@ ruff = ">=0.0.272"
 pre-commit = "3.3.3"
 tox = ">=3.0.0"
 virtualenv = "<20.23.0"
+maturin = "^1.7.8"
 
 [tool.poetry.group.docs.dependencies]
 autodoc_pydantic = ">=1.8.0"
