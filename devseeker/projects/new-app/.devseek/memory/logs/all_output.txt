@@ -1,0 +1,681 @@
+
+2026-04-11T15:11:46.316419
+================================ System Message ================================
+
+You will get instructions for code to write.
+You will write a very long answer. Make sure that every detail of the architecture is, in the end, implemented as code.
+Think step by step and reason yourself to the correct decisions to make sure we get it right.
+First lay out the names of the core classes, functions, methods that will be necessary, As well as a quick comment on their purpose.
+
+You will output the content of each file necessary to achieve the goal, including ALL code.
+Represent files like so:
+
+FILENAME
+```
+CODE
+```
+
+The following tokens must be replaced like so:
+FILENAME is the lowercase combined path and file name including the file extension
+CODE is the code in the file
+
+Example representation of a file:
+
+src/hello_world.py
+```
+print("Hello World")
+```
+
+Do not comment on what every file does. Please note that the code should be fully functional. No placeholders.
+
+
+You will start with the "entrypoint" file, then go to the ones that are imported by that file, and so on.
+Please note that the code should be fully functional. No placeholders.
+
+Follow a language and framework appropriate best practice file naming convention.
+Make sure that files contain all imports, types etc.  The code should be fully functional. Make sure that code in different files are compatible with each other.
+Ensure to implement all code, if you are unsure, write a plausible implementation.
+Include module dependency or package manager dependency definition file.
+Before you finish, double check that all parts of the architecture is present in the files.
+
+When you are done, write finish with "this concludes a fully working implementation".
+
+Useful to know:
+Almost always put different classes in different files.
+Always use the programming language the user asks for.
+For Python, you always create an appropriate requirements.txt file.
+For NodeJS, you always create an appropriate package.json file.
+Always add a comment briefly describing the purpose of the function definition.
+Add comments explaining very complex bits of logic.
+Always follow the best practices for the requested languages for folder/file structure and how to package the project.
+
+
+Python toolbelt preferences:
+- pytest
+- dataclasses
+
+
+================================ Human Message =================================
+
+Request: # Agent Prompt: Build a Polished Snake Game in Python
+
+================================== Ai Message ==================================
+
+Core classes, functions, and modules:
+
+- `src/main.py`
+  - `main()`: application entrypoint; initializes and runs the game.
+- `src/game.py`
+  - `SnakeGame`: main game controller; handles state, updates, rendering, and input.
+- `src/settings.py`
+  - `GameSettings`: dataclass holding all configurable constants.
+- `src/direction.py`
+  - `Direction`: enum for movement directions.
+- `src/position.py`
+  - `Position`: immutable coordinate model with helper methods.
+- `src/snake.py`
+  - `Snake`: manages snake body, movement, growth, and collision checks.
+- `src/food.py`
+  - `Food`: represents food placement and respawning.
+- `src/highscore.py`
+  - `HighScoreManager`: loads and saves persistent high scores.
+- `src/ui.py`
+  - `draw_text_centered()`, `draw_panel()`: reusable rendering helpers.
+- `src/utils.py`
+  - `clamp()`, `grid_to_pixels()`, `pixels_to_grid()`: small utility helpers.
+- `tests/test_snake.py`
+  - Unit tests for snake movement and collision behavior.
+
+Below is a complete, fully working implementation.
+
+requirements.txt
+```txt
+pygame>=2.5.0
+pytest>=8.0.0
+```
+
+src/__init__.py
+```python
+"""Snake game package."""
+```
+
+src/settings.py
+```python
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class GameSettings:
+    """Container for all game configuration values."""
+
+    window_width: int = 800
+    window_height: int = 600
+    grid_size: int = 20
+    fps: int = 12
+    title: str = "Polished Snake"
+    background_color: tuple[int, int, int] = (18, 18, 24)
+    grid_color: tuple[int, int, int] = (30, 30, 40)
+    snake_head_color: tuple[int, int, int] = (80, 220, 120)
+    snake_body_color: tuple[int, int, int] = (50, 180, 90)
+    food_color: tuple[int, int, int] = (235, 80, 80)
+    text_color: tuple[int, int, int] = (240, 240, 245)
+    panel_color: tuple[int, int, int] = (24, 24, 32)
+    panel_border_color: tuple[int, int, int] = (70, 70, 90)
+    game_over_overlay: tuple[int, int, int, int] = (0, 0, 0, 160)
+    highscore_file: str = "highscore.txt"
+
+    @property
+    def cols(self) -> int:
+        """Return the number of horizontal grid cells."""
+        return self.window_width // self.grid_size
+
+    @property
+    def rows(self) -> int:
+        """Return the number of vertical grid cells."""
+        return self.window_height // self.grid_size
+```
+
+src/direction.py
+```python
+from __future__ import annotations
+
+from enum import Enum
+
+
+class Direction(Enum):
+    """Cardinal movement directions for the snake."""
+
+    UP = (0, -1)
+    DOWN = (0, 1)
+    LEFT = (-1, 0)
+    RIGHT = (1, 0)
+
+    @property
+    def vector(self) -> tuple[int, int]:
+        """Return the direction as a grid movement vector."""
+        return self.value
+
+    def opposite(self) -> "Direction":
+        """Return the opposite direction."""
+        opposites = {
+            Direction.UP: Direction.DOWN,
+            Direction.DOWN: Direction.UP,
+            Direction.LEFT: Direction.RIGHT,
+            Direction.RIGHT: Direction.LEFT,
+        }
+        return opposites[self]
+```
+
+src/position.py
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True, slots=True)
+class Position:
+    """Immutable grid coordinate."""
+
+    x: int
+    y: int
+
+    def moved(self, dx: int, dy: int) -> "Position":
+        """Return a new position offset by the given delta."""
+        return Position(self.x + dx, self.y + dy)
+```
+
+src/utils.py
+```python
+from __future__ import annotations
+
+from .position import Position
+
+
+def clamp(value: int, minimum: int, maximum: int) -> int:
+    """Clamp an integer to the provided range."""
+    return max(minimum, min(maximum, value))
+
+
+def grid_to_pixels(position: Position, grid_size: int) -> tuple[int, int]:
+    """Convert a grid position to pixel coordinates."""
+    return position.x * grid_size, position.y * grid_size
+
+
+def pixels_to_grid(x: int, y: int, grid_size: int) -> Position:
+    """Convert pixel coordinates to a grid position."""
+    return Position(x // grid_size, y // grid_size)
+```
+
+src/snake.py
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+from .direction import Direction
+from .position import Position
+
+
+@dataclass
+class Snake:
+    """Snake model handling movement, growth, and collision checks."""
+
+    body: list[Position] = field(default_factory=list)
+    direction: Direction = Direction.RIGHT
+    pending_growth: int = 0
+
+    @classmethod
+    def create_initial(cls, start: Position, length: int = 3) -> "Snake":
+        """Create a snake with a given starting position and length."""
+        body = [Position(start.x - i, start.y) for i in range(length)]
+        return cls(body=body, direction=Direction.RIGHT)
+
+    @property
+    def head(self) -> Position:
+        """Return the current head position."""
+        return self.body[0]
+
+    def set_direction(self, new_direction: Direction) -> None:
+        """Update direction unless it would reverse into itself."""
+        if new_direction != self.direction.opposite():
+            self.direction = new_direction
+
+    def move(self) -> None:
+        """Advance the snake by one cell in the current direction."""
+        dx, dy = self.direction.vector
+        new_head = self.head.moved(dx, dy)
+        self.body.insert(0, new_head)
+
+        if self.pending_growth > 0:
+            self.pending_growth -= 1
+        else:
+            self.body.pop()
+
+    def grow(self, amount: int = 1) -> None:
+        """Queue growth to be applied on subsequent moves."""
+        self.pending_growth += amount
+
+    def occupies(self, position: Position) -> bool:
+        """Check whether the snake occupies a given position."""
+        return position in self.body
+
+    def collides_with_self(self) -> bool:
+        """Check whether the snake head overlaps its body."""
+        return self.head in self.body[1:]
+```
+
+src/food.py
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+import random
+
+from .position import Position
+from .snake import Snake
+
+
+@dataclass
+class Food:
+    """Food item that can respawn on empty grid cells."""
+
+    position: Position
+
+    @classmethod
+    def spawn(cls, cols: int, rows: int, snake: Snake) -> "Food":
+        """Spawn food at a random unoccupied grid cell."""
+        available = [
+            Position(x, y)
+            for y in range(rows)
+            for x in range(cols)
+            if not snake.occupies(Position(x, y))
+        ]
+        if not available:
+            raise RuntimeError("No available cells to spawn food.")
+        return cls(position=random.choice(available))
+
+    def respawn(self, cols: int, rows: int, snake: Snake) -> None:
+        """Move food to a new random unoccupied cell."""
+        self.position = Food.spawn(cols, rows, snake).position
+```
+
+src/highscore.py
+```python
+from __future__ import annotations
+
+from pathlib import Path
+
+
+class HighScoreManager:
+    """Persistent high score storage using a simple text file."""
+
+    def __init__(self, path: str) -> None:
+        self.path = Path(path)
+
+    def load(self) -> int:
+        """Load the stored high score, returning 0 if unavailable."""
+        try:
+            return int(self.path.read_text(encoding="utf-8").strip())
+        except (FileNotFoundError, ValueError, OSError):
+            return 0
+
+    def save(self, score: int) -> None:
+        """Persist the provided high score."""
+        self.path.write_text(f"{score}\n", encoding="utf-8")
+```
+
+src/ui.py
+```python
+from __future__ import annotations
+
+import pygame
+
+
+def draw_text_centered(
+    surface: pygame.Surface,
+    text: str,
+    font: pygame.font.Font,
+    color: tuple[int, int, int],
+    center: tuple[int, int],
+) -> None:
+    """Render text centered at the given position."""
+    rendered = font.render(text, True, color)
+    rect = rendered.get_rect(center=center)
+    surface.blit(rendered, rect)
+
+
+def draw_panel(
+    surface: pygame.Surface,
+    rect: pygame.Rect,
+    fill_color: tuple[int, int, int],
+    border_color: tuple[int, int, int],
+    border_radius: int = 10,
+    border_width: int = 2,
+) -> None:
+    """Draw a rounded panel with a border."""
+    pygame.draw.rect(surface, fill_color, rect, border_radius=border_radius)
+    pygame.draw.rect(
+        surface,
+        border_color,
+        rect,
+        width=border_width,
+        border_radius=border_radius,
+    )
+```
+
+src/game.py
+```python
+from __future__ import annotations
+
+import sys
+from dataclasses import dataclass
+
+import pygame
+
+from .direction import Direction
+from .food import Food
+from .highscore import HighScoreManager
+from .position import Position
+from .settings import GameSettings
+from .snake import Snake
+from .ui import draw_panel, draw_text_centered
+
+
+@dataclass
+class GameState:
+    """Mutable runtime state for the game."""
+
+    score: int = 0
+    game_over: bool = False
+
+
+class SnakeGame:
+    """Main game controller for input, update, and rendering."""
+
+    def __init__(self, settings: GameSettings | None = None) -> None:
+        self.settings = settings or GameSettings()
+        self.state = GameState()
+        self.highscore_manager = HighScoreManager(self.settings.highscore_file)
+        self.high_score = self.highscore_manager.load()
+
+        self.snake = Snake.create_initial(
+            start=Position(self.settings.cols // 2, self.settings.rows // 2),
+            length=3,
+        )
+        self.food = Food.spawn(self.settings.cols, self.settings.rows, self.snake)
+
+        self.screen: pygame.Surface | None = None
+        self.clock = pygame.time.Clock()
+        self.font_small: pygame.font.Font | None = None
+        self.font_medium: pygame.font.Font | None = None
+        self.font_large: pygame.font.Font | None = None
+
+    def run(self) -> None:
+        """Initialize pygame and start the main loop."""
+        pygame.init()
+        pygame.display.set_caption(self.settings.title)
+        self.screen = pygame.display.set_mode(
+            (self.settings.window_width, self.settings.window_height)
+        )
+
+        self.font_small = pygame.font.SysFont("arial", 20)
+        self.font_medium = pygame.font.SysFont("arial", 28, bold=True)
+        self.font_large = pygame.font.SysFont("arial", 48, bold=True)
+
+        while True:
+            self.handle_events()
+            if not self.state.game_over:
+                self.update()
+            self.render()
+            self.clock.tick(self.settings.fps)
+
+    def handle_events(self) -> None:
+        """Process user input and window events."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key in (pygame.K_ESCAPE,):
+                    self.quit()
+
+                if self.state.game_over:
+                    if event.key == pygame.K_r:
+                        self.restart()
+                    continue
+
+                if event.key in (pygame.K_UP, pygame.K_w):
+                    self.snake.set_direction(Direction.UP)
+                elif event.key in (pygame.K_DOWN, pygame.K_s):
+                    self.snake.set_direction(Direction.DOWN)
+                elif event.key in (pygame.K_LEFT, pygame.K_a):
+                    self.snake.set_direction(Direction.LEFT)
+                elif event.key in (pygame.K_RIGHT, pygame.K_d):
+                    self.snake.set_direction(Direction.RIGHT)
+
+    def update(self) -> None:
+        """Advance game state by one tick."""
+        self.snake.move()
+
+        if self.is_out_of_bounds(self.snake.head) or self.snake.collides_with_self():
+            self.end_game()
+            return
+
+        if self.snake.head == self.food.position:
+            self.state.score += 1
+            self.snake.grow(1)
+            self.food.respawn(self.settings.cols, self.settings.rows, self.snake)
+
+    def render(self) -> None:
+        """Draw the full game frame."""
+        assert self.screen is not None
+        assert self.font_small is not None
+        assert self.font_medium is not None
+        assert self.font_large is not None
+
+        self.screen.fill(self.settings.background_color)
+        self.draw_grid()
+        self.draw_food()
+        self.draw_snake()
+        self.draw_hud()
+
+        if self.state.game_over:
+            self.draw_game_over_overlay()
+
+        pygame.display.flip()
+
+    def draw_grid(self) -> None:
+        """Render the subtle background grid."""
+        assert self.screen is not None
+        gs = self.settings.grid_size
+        for x in range(0, self.settings.window_width, gs):
+            pygame.draw.line(
+                self.screen, self.settings.grid_color, (x, 0), (x, self.settings.window_height)
+            )
+        for y in range(0, self.settings.window_height, gs):
+            pygame.draw.line(
+                self.screen, self.settings.grid_color, (0, y), (self.settings.window_width, y)
+            )
+
+    def draw_snake(self) -> None:
+        """Render the snake body with a distinct head."""
+        assert self.screen is not None
+        gs = self.settings.grid_size
+        for index, segment in enumerate(self.snake.body):
+            color = self.settings.snake_head_color if index == 0 else self.settings.snake_body_color
+            rect = pygame.Rect(segment.x * gs, segment.y * gs, gs, gs)
+            pygame.draw.rect(self.screen, color, rect.inflate(-2, -2), border_radius=6)
+
+    def draw_food(self) -> None:
+        """Render the food as a rounded square."""
+        assert self.screen is not None
+        gs = self.settings.grid_size
+        rect = pygame.Rect(
+            self.food.position.x * gs,
+            self.food.position.y * gs,
+            gs,
+            gs,
+        )
+        pygame.draw.rect(self.screen, self.settings.food_color, rect.inflate(-4, -4), border_radius=6)
+
+    def draw_hud(self) -> None:
+        """Render score and high score panels."""
+        assert self.screen is not None
+        assert self.font_small is not None
+
+        score_rect = pygame.Rect(12, 12, 160, 52)
+        high_rect = pygame.Rect(self.settings.window_width - 172, 12, 160, 52)
+
+        draw_panel(
+            self.screen,
+            score_rect,
+            self.settings.panel_color,
+            self.settings.panel_border_color,
+        )
+        draw_panel(
+            self.screen,
+            high_rect,
+            self.settings.panel_color,
+            self.settings.panel_border_color,
+        )
+
+        draw_text_centered(
+            self.screen,
+            f"Score: {self.state.score}",
+            self.font_small,
+            self.settings.text_color,
+            score_rect.center,
+        )
+        draw_text_centered(
+            self.screen,
+            f"Best: {self.high_score}",
+            self.font_small,
+            self.settings.text_color,
+            high_rect.center,
+        )
+
+    def draw_game_over_overlay(self) -> None:
+        """Render the game over overlay and restart prompt."""
+        assert self.screen is not None
+        assert self.font_large is not None
+        assert self.font_medium is not None
+        assert self.font_small is not None
+
+        overlay = pygame.Surface((self.settings.window_width, self.settings.window_height), pygame.SRCALPHA)
+        overlay.fill(self.settings.game_over_overlay)
+        self.screen.blit(overlay, (0, 0))
+
+        draw_text_centered(
+            self.screen,
+            "Game Over",
+            self.font_large,
+            self.settings.text_color,
+            (self.settings.window_width // 2, self.settings.window_height // 2 - 40),
+        )
+        draw_text_centered(
+            self.screen,
+            f"Final Score: {self.state.score}",
+            self.font_medium,
+            self.settings.text_color,
+            (self.settings.window_width // 2, self.settings.window_height // 2 + 10),
+        )
+        draw_text_centered(
+            self.screen,
+            "Press R to restart or ESC to quit",
+            self.font_small,
+            self.settings.text_color,
+            (self.settings.window_width // 2, self.settings.window_height // 2 + 50),
+        )
+
+    def is_out_of_bounds(self, position: Position) -> bool:
+        """Check whether a position is outside the playfield."""
+        return not (0 <= position.x < self.settings.cols and 0 <= position.y < self.settings.rows)
+
+    def end_game(self) -> None:
+        """Transition into the game over state and persist high score."""
+        self.state.game_over = True
+        if self.state.score > self.high_score:
+            self.high_score = self.state.score
+            self.highscore_manager.save(self.high_score)
+
+    def restart(self) -> None:
+        """Reset the game to its initial state."""
+        self.state = GameState()
+        self.snake = Snake.create_initial(
+            start=Position(self.settings.cols // 2, self.settings.rows // 2),
+            length=3,
+        )
+        self.food = Food.spawn(self.settings.cols, self.settings.rows, self.snake)
+
+    def quit(self) -> None:
+        """Exit the application cleanly."""
+        pygame.quit()
+        sys.exit(0)
+```
+
+src/main.py
+```python
+from __future__ import annotations
+
+from .game import SnakeGame
+
+
+def main() -> None:
+    """Program entrypoint."""
+    game = SnakeGame()
+    game.run()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+tests/test_snake.py
+```python
+from src.direction import Direction
+from src.position import Position
+from src.snake import Snake
+
+
+def test_snake_moves_forward() -> None:
+    """Snake should advance one cell in its current direction."""
+    snake = Snake.create_initial(Position(5, 5), length=3)
+    snake.move()
+    assert snake.head == Position(6, 5)
+    assert len(snake.body) == 3
+
+
+def test_snake_grows_on_next_moves() -> None:
+    """Growth should be applied over subsequent moves."""
+    snake = Snake.create_initial(Position(5, 5), length=3)
+    snake.grow(2)
+    snake.move()
+    snake.move()
+    assert len(snake.body) == 5
+
+
+def test_snake_prevents_reverse_direction() -> None:
+    """Snake should not be able to reverse directly into itself."""
+    snake = Snake.create_initial(Position(5, 5), length=3)
+    snake.set_direction(Direction.LEFT)
+    assert snake.direction == Direction.RIGHT
+
+
+def test_snake_self_collision_detected() -> None:
+    """Self collision should be detected when head overlaps body."""
+    snake = Snake(
+        body=[
+            Position(2, 2),
+            Position(2, 3),
+            Position(3, 3),
+            Position(3, 2),
+        ],
+        direction=Direction.RIGHT,
+    )
+    assert snake.collides_with_self() is False
+    snake.body[0] = Position(3, 3)
+    assert snake.collides_with_self() is True
+```
+
+this concludes a fully working implementation

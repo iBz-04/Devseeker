@@ -56,9 +56,6 @@ class _DevseekerAppConfig:
     openapi: list[_OpenApiConfig] | None = None
 
 
-_GptEngineerAppConfig = _DevseekerAppConfig
-
-
 def filter_none(d: dict) -> dict:
     # Drop None values and empty dictionaries from a dictionary
     return {
@@ -93,9 +90,7 @@ class Config:
         paths = _PathsConfig(**config_dict.get("paths", {}))
 
         # load optional devseeker-app section
-        devseeker_app_dict = config_dict.get(
-            "devseeker-app", config_dict.get("gptengineer-app", {})
-        )
+        devseeker_app_dict = config_dict.get("devseeker-app", {})
         devseeker_app = None
         if devseeker_app_dict:
             assert (
@@ -154,11 +149,6 @@ class Config:
                 f.write(toml_str)
 
         return toml_str
-
-    @property
-    def gptengineer_app(self):
-        return self.devseeker_app
-
 
 def read_config(config_file: Path) -> tomlkit.TOMLDocument:
     """Read the configuration file"""

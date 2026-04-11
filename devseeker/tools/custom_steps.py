@@ -224,8 +224,11 @@ def lite_gen(
     """
 
     preprompts = preprompts_holder.get_preprompts()
+    system = preprompts["generate"].replace("FILE_FORMAT", preprompts["file_format"])
     messages = ai.start(
-        prompt.to_langchain_content(), preprompts["file_format"], step_name=curr_fn()
+        system=system,
+        user=prompt.to_langchain_content(),
+        step_name=curr_fn(),
     )
     chat = messages[-1].content.strip()
     memory.log(CODE_GEN_LOG_FILE, "\n\n".join(x.pretty_repr() for x in messages))

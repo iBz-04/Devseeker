@@ -78,45 +78,51 @@ def apply_diffs(diffs: Dict[str, Diff], files: FilesDict) -> FilesDict:
     - FilesDict: The updated files after applying diffs.
     """
     files = FilesDict(files.copy())
-    REMOVE_FLAG = "<REMOVE_LINE>"  # Placeholder to mark lines for removal
+
+    def _apply_hunks_to_content(file_content: str, diff_obj: Diff) -> str:
+        original_lines = file_content.split("\n")
+        result_lines = []
+
+        old_index = 0  # 0-based index into original_lines
+        for hunk in diff_obj.hunks:
+            # Unified diff hunks are 1-based.
+            start_index = max(0, int(hunk.start_line_pre_edit) - 1)
+            if start_index < old_index:
+                start_index = old_index
+
+            result_lines.extend(original_lines[old_index:start_index])
+            old_index = start_index
+
+            for op, text in hunk.lines:
+                if op == RETAIN:
+                    if old_index < len(original_lines):
+                        result_lines.append(original_lines[old_index])
+                        old_index += 1
+                    else:
+                        result_lines.append(text)
+                elif op == REMOVE:
+                    if old_index < len(original_lines):
+                        old_index += 1
+                elif op == ADD:
+                    result_lines.append(text)
+
+        result_lines.extend(original_lines[old_index:])
+        return "\n".join(result_lines)
+
     for diff in diffs.values():
         if diff.is_new_file():
-            # If it's a new file, create it with the content from the diff
             files[diff.filename_post] = "\n".join(
                 line[1] for hunk in diff.hunks for line in hunk.lines
             )
-        else:
-            # Convert the file content to a dictionary of lines
-            line_dict = file_to_lines_dict(files[diff.filename_pre])
-            for hunk in diff.hunks:
-                current_line = hunk.start_line_pre_edit
-                for line in hunk.lines:
-                    if line[0] == RETAIN:
-                        current_line += 1
-                    elif line[0] == ADD:
-                        # Handle added lines
-                        current_line -= 1
-                        if (
-                            current_line in line_dict.keys()
-                            and line_dict[current_line] != REMOVE_FLAG
-                        ):
-                            line_dict[current_line] += "\n" + line[1]
-                        else:
-                            line_dict[current_line] = line[1]
-                        current_line += 1
-                    elif line[0] == REMOVE:
-                        # Mark removed lines with REMOVE_FLAG
-                        line_dict[current_line] = REMOVE_FLAG
-                        current_line += 1
+            continue
 
-            # Remove lines marked for removal
-            line_dict = {
-                key: line_content
-                for key, line_content in line_dict.items()
-                if REMOVE_FLAG not in line_content
-            }
-            # Reassemble the file content
-            files[diff.filename_post] = "\n".join(line_dict.values())
+        if diff.filename_pre not in files:
+            raise KeyError(f"Diff references missing file: {diff.filename_pre}")
+
+        files[diff.filename_post] = _apply_hunks_to_content(
+            files[diff.filename_pre], diff
+        )
+
     return files
 
 

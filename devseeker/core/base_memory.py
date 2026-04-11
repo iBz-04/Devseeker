@@ -2,7 +2,7 @@
 Base Memory Module
 
 This module provides a type alias for a mutable mapping that represents the base memory structure
-used in the GPT Engineer project. The base memory is a mapping from file names (as strings or Path objects)
+used in the Devseeker project. The base memory is a mapping from file names (as strings or Path objects)
 to their corresponding code content (as strings).
 
 Type Aliases:
